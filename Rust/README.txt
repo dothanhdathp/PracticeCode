@@ -1,0 +1,1 @@
+// Just for init file and struct of code table.
