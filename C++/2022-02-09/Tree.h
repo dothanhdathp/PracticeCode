@@ -1,14 +1,25 @@
-#include
-
-using namespace std;
+#include <string>
+#include <vector>
+#include <list>
+#include <map>
+#include <set>
 
 class Trie {
-	public:
-		Trie();
-		~Trie();
-	private:
-		void insertItems();
-		void removeItems();
-		void getIimeByText(string text); // should be return list
-		void showTrieMap(); // just for test
+	Trie();
+	~Trie();
+	
+/* value */
+public:
+	list
+private:
+
+/* function */
+public:
+	void insert();
+	void removeItems();
+	void showItems();
+	void getIimeByText(string text); // should be return list
+	
+private:
+	// NA
 }
