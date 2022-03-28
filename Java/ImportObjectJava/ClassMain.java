@@ -1,5 +1,5 @@
-import ClassFirst 
-import ClassSecond
+import java.ClassFirst;
+import java.ClassSecond;
 
 class MainWindownClass {
 	public static void main(String[] args) {
