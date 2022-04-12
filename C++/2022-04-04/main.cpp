@@ -44,7 +44,7 @@ int myAtoi(string s) {
 	cout << simple << '\n';
 	return 0;
 }
-
+ 
 int main()
 {
 	string s = "   -42";
