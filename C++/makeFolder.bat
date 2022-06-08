@@ -10,7 +10,9 @@ mkdir %fname%
 copy "./run.bat" "%fname%/run.bat"
 cd %fname%
 echo #include ^<cstdlib^>> main.cpp
-echo #include "stdio.h">> main.cpp
+echo #include ^<iostream^>>> main.cpp
+echo #include ^<algorithm^>>> main.cpp
+echo //#include "stdio.h">> main.cpp
 echo.>> main.cpp
 echo using namespace std; >> main.cpp
 echo.>> main.cpp
@@ -28,7 +30,9 @@ mkdir %fname%
 copy "./run.bat" "%fname%/run.bat"
 cd %fname%
 echo #include ^<cstdlib^>> main.cpp
-echo #include "stdio.h">> main.cpp
+echo #include ^<iostream^>>> main.cpp
+echo #include ^<algorithm^>>> main.cpp
+echo //#include "stdio.h">> main.cpp
 echo.>> main.cpp
 echo using namespace std; >> main.cpp
 echo.>> main.cpp
