@@ -1,1 +1,1 @@
-// Just for init file and struct of code table.
+For start RUST --> Install program in 
