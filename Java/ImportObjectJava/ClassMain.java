@@ -1,8 +1,14 @@
-import java.ClassFirst;
-import java.ClassSecond;
+// import java.ClassFirst;
+// import java.ClassSecond;
 
+class testClass {
+	public static void printfStr(string args) {
+		System.out.println(args);
+	}
+}
 class MainWindownClass {
 	public static void main(String[] args) {
-		System.out.println("Hello, i'm main and i using import class");
+		testClass tester = new testClass();
+		tester.printfStr("Hello");
 	}
 }
