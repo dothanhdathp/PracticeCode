@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="StatUIName" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">50dp</item>
+    </style>
+    <style name="StatUIValue" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">50dp</item>
+    </style>
+</resources>
