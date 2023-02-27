@@ -25,7 +25,8 @@
             <!-- Fill which broadcast you want to listen in here -->
             <!-- android:name  =  name of class which receive message -->
             <intent-filter>
-                <action android:name="android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED"/>
+                <action android:name="android.media.VOLUME_CHANGED_ACTION" />
+                <action android:name="com.example.broadcast.MY_DEFINED_ACTION" />
             </intent-filter>
         </receiver>
 

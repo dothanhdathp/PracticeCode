@@ -4,11 +4,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,9 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 
 class MainTheme {
-    int mainTextColor = Color.parseColor("#FFFFFF");
+    int mainTextColor = Color.parseColor("#000000");
     float H1 = 40.0f;
     float H2 = 30.0f;
     float H3 = 20.0f;
@@ -31,17 +34,26 @@ public class MainActivity extends AppCompatActivity {
     // Struct keep element for setup environment
     private MainTheme theme = new MainTheme();
     MyTestReceiver myTestReceiver = null;
+    MyTestReceiver myTestReceiver2 = null;
+
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d(Tag, "On create UI");
-        createUI();
-//        registerReceiver();
-        myTestReceiver= new MyTestReceiver();
-        IntentFilter filter = new IntentFilter("android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED");
+
+        // registerReceiver get local intent
+        Log.d(Tag, "On create UI :: " + getPackageName()); // getPackageName() = com.example.broadcast
+        myTestReceiver = new MyTestReceiver();
+        IntentFilter filter = new IntentFilter(getPackageName().toString() +".MY_DEFINED_ACTION");
         registerReceiver(myTestReceiver, filter);
+
+        // registerReceiver get system intent
+        myTestReceiver2 = new MyTestReceiver();
+        IntentFilter filter2 = new IntentFilter("android.media.VOLUME_CHANGED_ACTION");
+        registerReceiver(myTestReceiver2, filter2);
+
+        createUI();
     }
 
     @Override
@@ -59,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         Log.d(Tag, Tag);
-        unregisterReceiver(myTestReceiver);
+//        unregisterReceiver(myTestReceiver);
         super.onStop();
     }
 
@@ -89,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout.LayoutParams LLP_2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams LLP_3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        RelativeLayout Main_Layout = new RelativeLayout(MainActivity.this);
+        final RelativeLayout Main_Layout = new RelativeLayout(MainActivity.this);
         LinearLayout Line_Layout_0 = new LinearLayout(MainActivity.this);
         Line_Layout_0.setOrientation(LinearLayout.VERTICAL);
         /* Create text = Service */
@@ -109,7 +121,15 @@ public class MainActivity extends AppCompatActivity {
         Button sendButton = new Button(MainActivity.this);
         sendButton.setText("CLICK ME!");
         sendButton.setLayoutParams(LLP_1);
-
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setAction(getPackageName().toString() +".MY_DEFINED_ACTION");
+                intent.putExtra("data", "Nothing to see here, move along.");
+                sendBroadcast(intent);
+            }
+        });
         /* Add to Layout */
         Line_Layout_0.addView(txtService, 0);
         Line_Layout_0.addView(edit_text, 1);

@@ -21,6 +21,12 @@ LINK_SDK default: C:\Users\%User%\AppData\Local\Android\Sdk\build-tools\
 Sửa lại tên những file file d8.jar d8.jar, d8.bat thành dx.jar, dx.bat là được :v
 
 Issue:
-"Can't determine type for tag '<macro name="m3_comp_assist_chip_container_shape">?attr/shapeAppearanceCornerSmall</macro>'"
+Can't determine type for tag '<macro name="m3_comp_assist_chip_container_shape">?attr/shapeAppearanceCornerSmall</macro>'
+Cũng trong mục build.gradle, Hạ version của implementation 'com.google.android.material:material xuống.
+
+dependencies {
+    implementation 'com.google.android.material:material:1.6.0'
+}
+
 3. Tạo Activity mới và trống nhỉ? Chắc sẽ là MainScreen
  - Không được, theo luật code thì nên để thêm chữ Activity đằng sau để biết đó là một Activity, Class là class, ... 
