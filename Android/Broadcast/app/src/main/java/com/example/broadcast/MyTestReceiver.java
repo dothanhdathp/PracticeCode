@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 public class MyTestReceiver extends BroadcastReceiver {
     String Tag = "[Tad_Zeilar]";
-
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
@@ -23,7 +22,11 @@ public class MyTestReceiver extends BroadcastReceiver {
         Log.d(Tag, "Message received from " + intent.getAction());
         String messTransfer = intent.getExtras().getString("data");
         Toast.makeText(context, "Message: \""+messTransfer+"\"", Toast.LENGTH_SHORT).show();
-
+        if(intent.getAction() == "com.example.broadcast.MY_DEFINED_ACTION")
+        {
+            DumpDownloadAsync new_async = new DumpDownloadAsync();
+            new_async.execute();
+        }
         if(false) {
             throw new UnsupportedOperationException("Not yet implemented");
         }

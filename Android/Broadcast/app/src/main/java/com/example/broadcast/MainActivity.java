@@ -124,10 +124,10 @@ public class MainActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setAction(getPackageName().toString() +".MY_DEFINED_ACTION");
-                intent.putExtra("data", "Nothing to see here, move along.");
-                sendBroadcast(intent);
+            Intent intent = new Intent();
+            intent.setAction(getPackageName().toString() +".MY_DEFINED_ACTION");
+            intent.putExtra("data", "Nothing to see here, move along.");
+            sendBroadcast(intent);
             }
         });
         /* Add to Layout */
