@@ -17,6 +17,7 @@ import java.util.List;
 public class NationalDexService extends Service {
     final String Tag = "NDexSv";
     private final IBinder mNationalDexBinder = new LocalBinder();
+
     List<String> pkm_display_list;
     int pos_in_pkm_display_list;
 
