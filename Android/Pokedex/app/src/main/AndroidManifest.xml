@@ -15,6 +15,11 @@
             android:theme="@style/Theme.Design.NoActionBar"></activity>
 
         <service
+            android:name=".MainService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <service
             android:name=".NationalDexService"
             android:enabled="true"
             android:exported="true" />

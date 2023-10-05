@@ -7,4 +7,25 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+<!--    Configured color    -->
+    <color name="cinnabar">#e74c3c</color>
+
+    <color name="cinnabar_d1">#d04436</color>
+    <color name="cinnabar_d2">#b93d30</color>
+    <color name="cinnabar_d3">#a2352a</color>
+    <color name="cinnabar_d4">#8b2e24</color>
+    <color name="cinnabar_d5">#74261e</color>
+    <color name="cinnabar_d6">#5c1e18</color>
+    <color name="cinnabar_d7">#451712</color>
+    <color name="cinnabar_d8">#170806</color>
+
+    <color name="cinnabar_l1">#e95e50</color>
+    <color name="cinnabar_l2">#ec7063</color>
+    <color name="cinnabar_l3">#ee8277</color>
+    <color name="cinnabar_l4">#f1948a</color>
+    <color name="cinnabar_l5">#f3a69e</color>
+    <color name="cinnabar_l6">#f5b7b1</color>
+    <color name="cinnabar_l7">#f8c9c5</color>
+    <color name="cinnabar_l8">#fadbd8</color>
+    <color name="cinnabar_l9">#fdedec</color>
 </resources>
