@@ -1,105 +1,53 @@
 #include <cstdlib>
 #include <iostream>
 #include <algorithm>
+#include <initializer_list>
+#include "../.common/mycommon.h"
 //#include "stdio.h"
 
-using namespace std; 
+using namespace std;
 
-void calibrationfrom(int p, int _sum, int &delta, int &tar)
-{
-	int p0 = p;
-	int p1 = p0+1;
-	int p2 = p1+1;
-	bool _cannot_move_ = false;
-	while(_cannot_move_) {
-		/*
-		if (_sum > delta) {
-			--p0, --p1, --p2;
-		} else {
-			++p0; ++p1; or ++p2
-		}
-		*/
-	}
-	// return delta;
-}
+class TestCase3:public TestCase {
+public:
+    std::vector<int> _vector;
+    int _target = 0;
+    int _expect = 0;
 
-int threeSumClosest(vector<int>& nums, int target)
-{
-    // Step 1: sort
-    sort(nums.begin(), nums.end());
-    // Step 2: Split
-	int p0, p1, p2;
-    int _sum;
-    auto Abs = [](int _var) {
-    	_var = _var<0 ? -1*_var : _var;
-    	return _var;
-    };
-    int delta;
-    int _max = (int)(nums.size()-1);
+public:
+    // TestCase3(vector<int> __l, int __t, int __e) {
+    //     _vector = __l;
+    //     _target = __t;
+    //     _expect = __e;
+    // }
 
-    if(target > (nums[0]+nums[_max])/2)
-    {
-    	int p2 = _max-1;
-    	_sum = nums[p2-2] + nums[p2-1] + nums[p2];
-    	if(_sum <= target) return target-_sum;
-
-    	delta = target - _sum;
-    	// Step3: Calib 
-    	/*
-    	* Moving the p2 down until the sum ~ target
-    	*/
-    	while (p2 > 1) {
-    		// Next sum
-    		int _delta = Abs((nums[p2-2] + nums[p2-1] + nums[p2] - target));
-    		if(_delta <= delta) {
-    			delta = _delta;
-    			--p2;
-    			continue;
-    		} else {
-    			// return calibrationfrom(p2-2, delta, target);
-    			cout << nums[p2-2] << ' ' << nums[p2-1] << ' ' << nums[p2] << endl;
-    			cout << delta << endl;
-    			return 0;
-    		}
-    		// dosomething
-    	};
-    	// return delta;
-    }
-    else
-    {
-    	p2 = 2;
-    	// p1 = ++p0;
-    	// p2 = ++p1;
-    	_sum = nums[p2-2] + nums[p2-1] + nums[p2];
-    	if(_sum > target) return target - _sum;
-    	// Step3: Calib
-    	/*
-    	* Moving the p0 up until the sum ~ target
-    	*/
-    	while (p2 < _max) {
-			// Next sum
-    		int _delta = Abs((target - nums[p2-2] + nums[p2-1] + nums[p2]));
-    		if(_delta < delta) {
-    			delta = _delta;
-    			++p2;
-    			continue;
-    		} else {
-    			// return calibrationfrom(p2-2, delta);
-    			cout << nums[p2-2] << ' ' << nums[p2-1] << ' ' << nums[p2] << endl;
-    			cout << delta << endl;
-    			return 0;
-    		}
-    		// dosomething
-    	};
-
+    TestCase3(std::initializer_list<int> __l, int __t, int __e) {
+        _vector = std::vector<int>(__l.begin(), __l.end());
+        _target = __t;
+        _expect = __e;
     }
 
-}
+    int threeSumClosest(vector<int>& nums, int target)
+    {
+        /// sort the list
+        std::sort(nums.begin(), nums.end());
+        return 0;
+    }
+
+    bool result() {
+        return {threeSumClosest(_vector, _target) == _expect};
+    }
+};
+
 
 int main()
 {
-	int tar = 0;
-	std::vector<int> temp = {-1,2,1,-4}; // -4,-1,1,2
-	cout << threeSumClosest(temp, tar) << endl;
+    std::vector<TestCase3> __test__;
+    __test__.push_back(TestCase3({-1,2,1,-4}, 1, 2));
+    __test__.push_back(TestCase3({0, 0, 0}, 1, 0));
+
+	DoTest<TestCase3>({
+        TestCase3({-1,2,1,-4}, 1, 2),
+        TestCase3({0, 0, 0}  , 1, 0)
+    });
 	return EXIT_SUCCESS; 
-}
+};
