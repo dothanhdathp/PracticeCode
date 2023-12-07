@@ -29,14 +29,16 @@ public class CSVDateParser {
             } catch (IOException io) {
                 Log.d(TAG, "Can not create file: " + fileName);
                 Log.d(TAG, fileName + " not exist!");
+                return;
             }
         }
+        Log.d(TAG, "readData: file link = " + file.getPath());
         try {
             Scanner scanner = new Scanner(file);
             while(scanner.hasNext()){
                 //read single line, put in string
                 String data = scanner.next();
-                Log.d(TAG, "data: " + data);
+                Log.d(TAG, "readData: data = " + data);
             }
         } catch (FileNotFoundException e) {
             Log.d(TAG, "Can't read file, E: " + e.getMessage());
