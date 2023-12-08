@@ -14,30 +14,42 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
+import com.interfaces.IPkmMainServiceCallback;
 import com.service.CSVDateParser;
 import com.service.CommonValue;
 import com.service.PokedexMainService;
 
-public class PokedexMainActivity extends AppCompatActivity {
+import java.util.List;
+
+public class PokedexMainActivity extends AppCompatActivity implements IPkmMainServiceCallback {
     private static String TAG = "PokedexMainActivity-" + CommonValue.getInstance().getOwnner();
     private PokedexMainService mPokedexMainService = null;
 
     private ServiceConnection mServiceConnection = null;
+    ListView mPokemonListView = null;
+    ListAdapter mPokemonListViewAdapter = null;
+    List<String> mPkmStringList = null;
 
     private void init() {
         if(mServiceConnection == null) {
             mServiceConnection = new ServiceConnection() {
                 @Override
                 public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                    Log.d(TAG, "TAD_ZEILA onServiceConnected");
+                    Log.d(TAG, "onServiceConnected");
                     PokedexMainService.LocalBinder service_binder = (PokedexMainService.LocalBinder)iBinder;
                     mPokedexMainService = service_binder.getService();
+                    mPokedexMainService.init(PokedexMainActivity.this);
                 }
 
                 @Override
                 public void onServiceDisconnected(ComponentName componentName) {
-                    Log.d(TAG, "TAD_ZEILA onServiceDisconnected");
+                    Log.d(TAG, "onServiceDisconnected");
                 }
             };
         }
@@ -63,15 +75,15 @@ public class PokedexMainActivity extends AppCompatActivity {
         Log.d(TAG, "Bind connection with Service ... ");
         Intent mServiceIntent = new Intent(this, PokedexMainService.class);
         bindService(mServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
-        setContentView(R.layout.activity_pokedex_main);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "[onCreate]");
+        setContentView(R.layout.activity_pokedex_main);
+        mPokemonListView = (ListView)findViewById(R.id.pokemon_list);
+        Log.d(TAG, "onCreate: mPokemonListView is " + ((mPokemonListView==null) ? "null" : "not null"));
         init();
-
     }
 
     @Override
@@ -84,8 +96,6 @@ public class PokedexMainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
-//        CSVDateParser data = new CSVDateParser();
-//        data.readData();
     }
 
     @Override
@@ -106,5 +116,28 @@ public class PokedexMainActivity extends AppCompatActivity {
         Log.d(TAG, "onDestroy: ");
         unbindService(mServiceConnection);
         mServiceConnection = null;
+    }
+
+    /// *** Service callback *** ///
+    public void onCallLog() {
+        Log.d(TAG, "onCallLog: Service done!");
+    }
+
+    public void onServiceReady() {
+        if(mPokedexMainService.isDataReady()) {
+
+        } else {
+            mPokedexMainService.startClaimData();
+        }
+    }
+
+    public void onLoadList() {
+        if(mPokemonListViewAdapter == null) {
+            mPkmStringList = mPokedexMainService.getPkmList();
+            mPokemonListViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mPkmStringList);
+            mPokemonListView.setAdapter(mPokemonListViewAdapter);
+        } else {
+            mPokemonListViewAdapter.notify();
+        }
     }
 }
