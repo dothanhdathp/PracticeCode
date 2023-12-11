@@ -1,5 +1,6 @@
 package com.activity.pokedex2;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -15,10 +16,13 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.interfaces.IPkmMainServiceCallback;
 import com.service.CSVDateParser;
@@ -35,6 +39,13 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
     ListView mPokemonListView = null;
     ListAdapter mPokemonListViewAdapter = null;
     List<String> mPkmStringList = null;
+    AdapterView.OnItemClickListener onItemClicked = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+            String selectedItem = (String) adapterView.getItemAtPosition(position);
+            Log.d(TAG, "The selected item is : " + selectedItem);
+        }
+    };
 
     private void init() {
         if(mServiceConnection == null) {
@@ -134,8 +145,9 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
     public void onLoadList() {
         if(mPokemonListViewAdapter == null) {
             mPkmStringList = mPokedexMainService.getPkmList();
-            mPokemonListViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mPkmStringList);
+            mPokemonListViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, mPkmStringList);
             mPokemonListView.setAdapter(mPokemonListViewAdapter);
+            mPokemonListView.setOnItemClickListener(onItemClicked);
         } else {
             mPokemonListViewAdapter.notify();
         }

@@ -9,16 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-<!--        <TextView-->
-<!--            android:id="@+id/PlainText_Pokedex"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Pokedex"-->
-<!--            android:fontFamily="sans-serif-condensed-medium"-->
-<!--            android:textSize="70dp"-->
-<!--            android:gravity="center_horizontal"-->
-<!--            android:textColor="#FFe74c3c">-->
-<!--        </TextView>-->
         <ListView
             android:id="@+id/pokemon_list"
             android:layout_width="match_parent"
