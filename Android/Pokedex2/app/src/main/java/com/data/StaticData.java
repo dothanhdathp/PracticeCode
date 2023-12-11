@@ -50,7 +50,9 @@ public class StaticData {
     }
 
     public void pushName(String name) {
-        Log.d(TAG, "pushName: "+ name);
+        if(mList.size() < 10) {
+            Log.d(TAG, "pushName: "+ name);
+        }
         mList.add(name);
     }
 
@@ -58,7 +60,8 @@ public class StaticData {
         return mList;
     }
 
-    public static byte[] data() {
+    /// For test, unused
+    public static byte[] dataTest() {
         String data = "001,Bulbasaur,Grass,Poison,45,49,49,65,65,45"
         + "\n002,Ivysaur,Grass,Poison,60,62,63,80,80,60"
         + "\n003,Venusaur,Grass,Poison,80,82,83,100,100,80"

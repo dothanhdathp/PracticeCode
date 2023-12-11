@@ -59,19 +59,18 @@ public class PokedexMainService extends Service {
         mServiceCallback.onServiceReady();
     };
 
-    public void startClaimData() {
-        Log.d(TAG, "startClaimData: ");
-        sendMessage(PokedexServiceMessage.PKD_MESSAGE_CLAIM_DATA);
+    private void sendMessage(int message_id, String d1, String d2) {
+        Log.d(TAG, "sendMessage: " + message_id +" | "+d1+" | "+d2);
+        mServiceThread.postMessage(message_id, d1, d2);
     }
 
-    private void sendMessage(int message_id) {
-        Log.d(TAG, "sendMessage: " + message_id);
-        mServiceThread.postMessage(message_id);
-    }
-
-    public void postMessage(int message_id) {
+    /// post message to ServiceHandler
+    public void threadRespond(int message_id, String d1, String d2) {
         Message msg = mServiceHandler.obtainMessage();
         msg.what = message_id;
+        Bundle b = new Bundle();
+        b.putString(d1, d2);
+        msg.setData(b);
         mServiceHandler.sendMessage(msg);
     }
 
@@ -86,13 +85,26 @@ public class PokedexMainService extends Service {
         public void handleMessage(Message msg) {
             Log.d(TAG, "handleMessage: " + msg.what);
             switch (msg.what) {
-                case PokedexServiceMessage.PKD_MESSAGE_CLAIM_DATA_DONE:
-                    Log.d(TAG, "Claim data done!");
+                case PokedexServiceMessage.MSG_RESPOND_GETLIST_DONE:
                     mServiceCallback.onLoadList();
                     break;
+                case PokedexServiceMessage.MSG_RESPOND_DETAIL_RESULT:
+                    mServiceCallback.onStartPokemonDetail(msg.getData().getString(PokedexServiceMessage.Key));
                 default:
                     break;
             }
         }
+    }
+
+    public void request(int message) {
+        sendMessage(message, "", "");
+    }
+
+    public void request(int message, String data) {
+        sendMessage(message, PokedexServiceMessage.Key, data);
+    }
+
+    public void request(int message, String data1, String data2) {
+        sendMessage(message, data1, data2);
     }
 }

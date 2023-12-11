@@ -5,21 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PokedexMainActivity">
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/main_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <ListView
-            android:id="@+id/pokemon_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </ListView>
-<!--        <TextView-->
-<!--            android:id="@+id/LoadingState"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:gravity="center"-->
-<!--            android:text="Loading...">-->
-<!--        </TextView>-->
-    </LinearLayout>
+        >
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

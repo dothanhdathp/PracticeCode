@@ -22,16 +22,8 @@ public class CSVDateParser {
     String TAG = CommonValue.getInstance().getOwnner() + "_CSVDateParser";
     private static CSVDateParser mInstance = null;
     public List<String> mListGen1;
-/* This belong have data or not
-    public List<String> mListGen2;
-    public List<String> mListGen3;
-    public List<String> mListGen4;
-    public List<String> mListGen5;
-    public List<String> mListGen6;
-    public List<String> mListGen7;
-    public List<String> mListGen8;
-    public List<String> mListGen9;
-*/
+    private static File data_file;
+
     public class PokemonItem {
         public int Idx;
         public String name;
@@ -46,42 +38,51 @@ public class CSVDateParser {
     }
 
     public static CSVDateParser getInstance() {
+        if(mInstance == null) {
+            mInstance = new CSVDateParser();
+            data_file = new File(Environment.getExternalStorageDirectory(), "gen1.csv");
+        }
         synchronized (mInstance) {
-            if(mInstance == null) {
-                mInstance = new CSVDateParser();
-            }
             return mInstance;
         }
     }
 
-    public void readData() {
-        String fileName = "gen1.csv";
-        File file = new File(Environment.getExternalStorageDirectory(), fileName);
-
-        if(!file.exists()) {
-//            try {
-//                file.createNewFile();
-//                OutputStream fo = new FileOutputStream(file);
-//                fo.write(StaticData.data());
-//                fo.close();
-//            } catch (IOException io) {
-//                Log.d(TAG, "Can not create file: " + fileName);
-//                Log.d(TAG, fileName + " not exist!");
-//                return;
-//            }
+    public boolean readData() {
+        if (!data_file.exists()) {
             Log.d(TAG, "Database file not exist!");
+            return false;
         }
-        Log.d(TAG, "readData: file link = " + file.getPath());
         try {
-            Scanner scanner = new Scanner(file);
+            Scanner scanner = new Scanner(data_file);
             while(scanner.hasNext()){
                 //read single line, put in string
                 String data = scanner.next();
                 String[] DataArray = data.split(",");
                 StaticData.getInstance().pushName(DataArray[1]);
             }
+            return true;
         } catch (FileNotFoundException e) {
             Log.d(TAG, "Can't read file, E: " + e.getMessage());
         }
+        return false;
+    }
+
+    public String findDetailByName(String name) {
+        try {
+            Scanner scanner = new Scanner(data_file);
+            while(scanner.hasNext()) {
+                //read single line, put in string
+                String data = scanner.next();
+                String[] DataArray = data.split(",");
+                if(name.equals(DataArray[1])) {
+                    Log.d(TAG, "findDetailByName: data founded!");
+                    return data;
+                };
+            }
+        } catch (FileNotFoundException e) {
+            Log.d(TAG, "Can't read file, E: " + e.getMessage());
+        }
+        Log.d(TAG, "findDetailByName("+name+"): data not found!");
+        return null;
     }
 }

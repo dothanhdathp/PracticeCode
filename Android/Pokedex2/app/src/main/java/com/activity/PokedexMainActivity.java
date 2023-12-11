@@ -3,6 +3,7 @@ package com.activity.pokedex2;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -24,6 +25,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.activity.PokedexDetailFragment;
+import com.activity.PokedexListFragment;
+import com.data.PokedexServiceMessage;
 import com.interfaces.IPkmMainServiceCallback;
 import com.service.CSVDateParser;
 import com.service.CommonValue;
@@ -34,18 +38,7 @@ import java.util.List;
 public class PokedexMainActivity extends AppCompatActivity implements IPkmMainServiceCallback {
     private static String TAG = "PokedexMainActivity-" + CommonValue.getInstance().getOwnner();
     private PokedexMainService mPokedexMainService = null;
-
     private ServiceConnection mServiceConnection = null;
-    ListView mPokemonListView = null;
-    ListAdapter mPokemonListViewAdapter = null;
-    List<String> mPkmStringList = null;
-    AdapterView.OnItemClickListener onItemClicked = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-            String selectedItem = (String) adapterView.getItemAtPosition(position);
-            Log.d(TAG, "The selected item is : " + selectedItem);
-        }
-    };
 
     private void init() {
         if(mServiceConnection == null) {
@@ -56,11 +49,13 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
                     PokedexMainService.LocalBinder service_binder = (PokedexMainService.LocalBinder)iBinder;
                     mPokedexMainService = service_binder.getService();
                     mPokedexMainService.init(PokedexMainActivity.this);
+                    PokedexListFragment.getInstance().init(mPokedexMainService);
                 }
 
                 @Override
                 public void onServiceDisconnected(ComponentName componentName) {
                     Log.d(TAG, "onServiceDisconnected");
+                    PokedexListFragment.getInstance().init(null);
                 }
             };
         }
@@ -92,8 +87,6 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokedex_main);
-        mPokemonListView = (ListView)findViewById(R.id.pokemon_list);
-        Log.d(TAG, "onCreate: mPokemonListView is " + ((mPokemonListView==null) ? "null" : "not null"));
         init();
     }
 
@@ -130,26 +123,47 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
     }
 
     /// *** Service callback *** ///
-    public void onCallLog() {
-        Log.d(TAG, "onCallLog: Service done!");
+    public void onCallLog(String log_test) {
+        Log.d(TAG, "onCallLog: " + log_test);
     }
 
     public void onServiceReady() {
         if(mPokedexMainService.isDataReady()) {
 
         } else {
-            mPokedexMainService.startClaimData();
+            mPokedexMainService.request(PokedexServiceMessage.MSG_REQUEST_GETLIST);
         }
     }
 
     public void onLoadList() {
-        if(mPokemonListViewAdapter == null) {
-            mPkmStringList = mPokedexMainService.getPkmList();
-            mPokemonListViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, mPkmStringList);
-            mPokemonListView.setAdapter(mPokemonListViewAdapter);
-            mPokemonListView.setOnItemClickListener(onItemClicked);
+        PokedexListFragment.getInstance().setListData(mPokedexMainService.getPkmList());
+        startFragment(PokedexListFragment.getInstance());
+    }
+
+    public void onStartPokemonDetail(String data) {
+        PokedexDetailFragment.getInstance().setDataInfo(data);
+        startFragment(PokedexDetailFragment.getInstance());
+    }
+
+    public void startFragment(Fragment fragment) {
+        if(fragment == null)
+            return;
+
+        String tag = fragment.getClass().getSimpleName();
+        Fragment frm_check = getSupportFragmentManager().findFragmentByTag(tag);
+        if(frm_check == null) {
+            /// Fragment not exits, add
+            getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.main_frame, fragment, tag)
+                .addToBackStack(null)
+                .commit();
         } else {
-            mPokemonListViewAdapter.notify();
+            getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_frame ,fragment, tag)
+                .addToBackStack(null)
+                .commit();
         }
     }
 }
