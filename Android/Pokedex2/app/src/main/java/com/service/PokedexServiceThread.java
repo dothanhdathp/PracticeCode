@@ -47,12 +47,12 @@ public class PokedexServiceThread extends Thread {
             Log.d(TAG, "handleMessage: " + msg.what);
             switch (msg.what) {
                 case PokedexServiceMessage.MSG_REQUEST_GETLIST:;
-                    CSVDateParser.getInstance().readData();
+                    CSVDataParser.getInstance().readData();
                     mService.threadRespond(PokedexServiceMessage.MSG_RESPOND_GETLIST_DONE, "", "");
                     break;
                 case PokedexServiceMessage.MSG_REQUEST_DETAIL_BY_NAME:
                     String data = msg.getData().getString(PokedexServiceMessage.Key);
-                    String result = CSVDateParser.getInstance().findDetailByName(data);
+                    String result = CSVDataParser.getInstance().findDetailByName(data);
                     Log.d(TAG, "handleMessage: MSG_REQUEST_DETAIL_BY_NAME | " + data + " | " + result);
                     if(result != null) {
                         mService.threadRespond(PokedexServiceMessage.MSG_RESPOND_DETAIL_RESULT, PokedexServiceMessage.Key, result);

@@ -1,30 +1,34 @@
 package com.data;
 
+import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 import android.util.Pair;
 
 import com.service.CommonValue;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StaticData {
     private final String TAG = "StaticData-" + CommonValue.getInstance().getOwnner();
-    private final Pair<Integer, Integer> RangePair[] = new Pair[]{
-            new Pair<>(1,151),
-            new Pair<>(152,251),
-            new Pair<>(252,386),
-            new Pair<>(387,493),
-            new Pair<>(494,649),
-            new Pair<>(650,721),
-            new Pair<>(722,809),
-            new Pair<>(810,905),
-            new Pair<>(906,1010)
-    };
-    private final int MIN_GEN = 1;
+    private final int mMaxIndex[] = { 151, 251, 386, 493, 649, 721, 809, 905, 1010 };
+    private final int MIN_GEN = 0;
     private final int MAX_GEN = 9;
 
+    public final int GEN1 = 0, GEN2 = 1, GEN3 = 2, GEN4 = 3, GEN5 = 4, GEN6 = 5, GEN7 = 6, GEN8 = 7, GEN9 = 8;
+    public final int ALL_GEN_INDEX[] = { GEN1, GEN2, GEN3, GEN4, GEN5, GEN6, GEN7, GEN8, GEN9 };
+    private File mDataFile[] = {null,null,null,null,null,null,null,null,null};
+    private String mDataFileName[] = { "gen1.csv", "gen2.csv", "gen3.csv", "gen4.csv", "gen5.csv", "gen6.csv", "gen7.csv", "gen8.csv", "gen9.csv" };
+
     private List<String> mList = new ArrayList<String>();
+
+    public StaticData() {
+        for ( int i : ALL_GEN_INDEX) {
+            mDataFile[i] = new File(Environment.getExternalStorageDirectory(), mDataFileName[i]);
+        }
+    }
 
     private static StaticData mInstance = null;
 
@@ -35,18 +39,33 @@ public class StaticData {
         return mInstance;
     }
 
-    public int getMinIndex(int genId) {
-        if((genId < MIN_GEN) || (genId > MAX_GEN)) {
-            return -1;
+    public boolean allDataFilesExist() {
+        for ( int i : ALL_GEN_INDEX) {
+            if(!mDataFile[i].exists()) {
+                return (boolean)false;
+            }
         }
-        return RangePair[genId].first;
+        return (boolean)true;
     }
 
-    public int getMaxIndex(int genId) {
+    public File getDataFile(int index) {
+        File f = mDataFile[index];
+        if(!f.exists()) {
+            Log.d(TAG, "getDataFile: data file not exist!");
+        };
+        return f;
+    }
+
+    public void getMinIndex(int genId) {
         if((genId < MIN_GEN) || (genId > MAX_GEN)) {
-            return -1;
+            return;
         }
-        return RangePair[genId].second;
+    }
+
+    public void getMaxIndex(int genId) {
+        if((genId < MIN_GEN) || (genId > MAX_GEN)) {
+            return;
+        }
     }
 
     public void pushName(String name) {
@@ -58,19 +77,5 @@ public class StaticData {
 
     public List<String> getList() {
         return mList;
-    }
-
-    /// For test, unused
-    public static byte[] dataTest() {
-        String data = "001,Bulbasaur,Grass,Poison,45,49,49,65,65,45"
-        + "\n002,Ivysaur,Grass,Poison,60,62,63,80,80,60"
-        + "\n003,Venusaur,Grass,Poison,80,82,83,100,100,80"
-        + "\n004,Charmander,Fire,,39,52,43,60,50,65"
-        + "\n005,Charmeleon,Fire,,58,64,58,80,65,80"
-        + "\n006,Charizard,Fire,Flying,78,84,78,109,85,100"
-        + "\n007,Squirtle,Water,,44,48,65,50,64,43"
-        + "\n008,Wartortle,Water,,59,63,80,65,80,58"
-        + "\n009,Blastoise,Water,,79,83,100,85,105,78";
-        return data.getBytes();
     }
 }

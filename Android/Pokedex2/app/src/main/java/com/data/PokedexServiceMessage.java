@@ -6,7 +6,7 @@ import android.os.Message;
 public class PokedexServiceMessage {
     public static final String Key = "TEST";
     /// REQUEST
-    public static final int MSG_REQUEST_START_UNUSED = 0;
+    public static final int MSG_REQUEST_START = 0;
     public static final int MSG_REQUEST_GETLIST = 1;
     public static final int MSG_REQUEST_DETAIL_BY_NAME = 2;
 

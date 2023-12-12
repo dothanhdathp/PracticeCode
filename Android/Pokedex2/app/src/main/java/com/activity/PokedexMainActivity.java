@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,12 +28,17 @@ import android.widget.Toast;
 
 import com.activity.PokedexDetailFragment;
 import com.activity.PokedexListFragment;
+import com.activity.PokedexLoadingFragment;
 import com.data.PokedexServiceMessage;
+import com.data.StaticData;
 import com.interfaces.IPkmMainServiceCallback;
-import com.service.CSVDateParser;
+import com.service.CSVDataParser;
 import com.service.CommonValue;
 import com.service.PokedexMainService;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public class PokedexMainActivity extends AppCompatActivity implements IPkmMainServiceCallback {
@@ -41,6 +47,10 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
     private ServiceConnection mServiceConnection = null;
 
     private void init() {
+        if(StaticData.getInstance().allDataFilesExist()) {
+            PokedexLoadingFragment.getInstance().setProgress(1);
+        };
+//        String data = this.getString(R.string.Gen1);
         if(mServiceConnection == null) {
             mServiceConnection = new ServiceConnection() {
                 @Override
@@ -48,6 +58,7 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
                     Log.d(TAG, "onServiceConnected");
                     PokedexMainService.LocalBinder service_binder = (PokedexMainService.LocalBinder)iBinder;
                     mPokedexMainService = service_binder.getService();
+                    // Give context to service
                     mPokedexMainService.init(PokedexMainActivity.this);
                     PokedexListFragment.getInstance().init(mPokedexMainService);
                 }
@@ -60,7 +71,7 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
             };
         }
 
-        /// Get permission read/write external storage
+        /// Check permission read/write external storage
         try {
             int permission_read = this.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE);
             if(permission_read != PackageManager.PERMISSION_GRANTED) {
