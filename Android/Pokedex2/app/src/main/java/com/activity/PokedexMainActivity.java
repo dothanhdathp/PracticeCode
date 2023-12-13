@@ -30,9 +30,9 @@ import com.activity.PokedexDetailFragment;
 import com.activity.PokedexListFragment;
 import com.activity.PokedexLoadingFragment;
 import com.data.PokedexServiceMessage;
-import com.data.StaticData;
+import com.data.PokedexData;
 import com.interfaces.IPkmMainServiceCallback;
-import com.service.CSVDataParser;
+import com.service.AppResourceManager;
 import com.service.CommonValue;
 import com.service.PokedexMainService;
 
@@ -42,14 +42,11 @@ import java.io.InputStream;
 import java.util.List;
 
 public class PokedexMainActivity extends AppCompatActivity implements IPkmMainServiceCallback {
-    private static String TAG = "PokedexMainActivity-" + CommonValue.getInstance().getOwnner();
+    private static String TAG = "PokedexMainActivity-" + CommonValue.Arthur;
     private PokedexMainService mPokedexMainService = null;
     private ServiceConnection mServiceConnection = null;
 
     private void init() {
-        if(StaticData.getInstance().allDataFilesExist()) {
-            PokedexLoadingFragment.getInstance().setProgress(1);
-        };
 //        String data = this.getString(R.string.Gen1);
         if(mServiceConnection == null) {
             mServiceConnection = new ServiceConnection() {
@@ -98,6 +95,7 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokedex_main);
+        AppResourceManager.getInstance().init(this.getApplicationContext(), getResources());
         init();
     }
 
@@ -176,5 +174,10 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
                 .addToBackStack(null)
                 .commit();
         }
+    }
+
+    public void onUpdatePokemonImage(int imageID) {
+        Log.d(TAG, "onUpdatePokemonImage: Charizard = " + R.drawable.charizard +"/"+ imageID);
+        PokedexDetailFragment.getInstance().updateImage(imageID);
     }
 }

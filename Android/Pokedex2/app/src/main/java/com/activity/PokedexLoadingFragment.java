@@ -20,7 +20,7 @@ import java.util.Hashtable;
  * create an instance of this fragment.
  */
 public class PokedexLoadingFragment extends Fragment {
-    private String TAG = "PokedexLoadingFragment-" + CommonValue.getInstance().getOwnner();
+    private String TAG = "PokedexLoadingFragment-" + CommonValue.Arthur;
     private static PokedexLoadingFragment mInstance;
     private int mProgress = 0;
 

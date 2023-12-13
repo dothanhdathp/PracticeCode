@@ -28,7 +28,7 @@ import java.util.PrimitiveIterator;
  * create an instance of this fragment.
  */
 public class PokedexListFragment extends Fragment {
-    private final String TAG = "PokedexListFragment-" + CommonValue.getInstance().getOwnner();
+    private final String TAG = "PokedexListFragment-" + CommonValue.Arthur;
     private static PokedexListFragment mInstance;
     private View mView;
     private List<String> mPkmStringList;
@@ -40,9 +40,9 @@ public class PokedexListFragment extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
             String selectedItem = (String) adapterView.getItemAtPosition(position);
-            Log.d(TAG, "The selected item is : " + selectedItem);
+            Log.d(TAG, "The selected item is ["+position+"] - " + selectedItem);
             if(mService != null) {
-                mService.request(PokedexServiceMessage.MSG_REQUEST_DETAIL_BY_NAME, selectedItem);
+                mService.request(PokedexServiceMessage.MSG_REQUEST_DETAIL_BY_NATION_ID, (position+1));
             }
         }
     };

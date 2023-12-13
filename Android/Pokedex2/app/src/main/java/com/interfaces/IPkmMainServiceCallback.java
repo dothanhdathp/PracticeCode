@@ -7,4 +7,5 @@ public interface IPkmMainServiceCallback {
     public void onServiceReady();
     public void onLoadList();
     public void onStartPokemonDetail(String data);
+    public void onUpdatePokemonImage(int imageID);
 }

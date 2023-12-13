@@ -13,7 +13,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.data.PokedexServiceMessage;
-import com.data.StaticData;
+import com.data.PokedexData;
 import com.interfaces.IPkmMainServiceCallback;
 
 import java.nio.file.ClosedFileSystemException;
@@ -21,7 +21,7 @@ import java.util.List;
 
 
 public class PokedexMainService extends Service {
-    private final String TAG = "PokedexMainService-"+CommonValue.getInstance().getOwnner();
+    private final String TAG = "PokedexMainService-"+CommonValue.Arthur;
     private final IBinder mLocalBinder = new LocalBinder();
 
     private boolean mReady = false;
@@ -59,23 +59,36 @@ public class PokedexMainService extends Service {
         mServiceCallback.onServiceReady();
     };
 
-    private void sendMessage(int message_id, String d1, String d2) {
-        Log.d(TAG, "sendMessage: " + message_id +" | "+d1+" | "+d2);
-        mServiceThread.postMessage(message_id, d1, d2);
+    private void sendMessage(int message_id, String key, String data) {
+        Log.d(TAG, "sendMessage: " + message_id +" | "+key+" | "+data);
+        mServiceThread.postMessage(message_id, key, data);
+    }
+
+    private void sendMessage(int message_id, String key, int data) {
+        Log.d(TAG, "sendMessage: " + message_id +" | "+key+" | "+data);
+        mServiceThread.postMessage(message_id, key, data);
     }
 
     /// post message to ServiceHandler
-    public void threadRespond(int message_id, String d1, String d2) {
+    public void threadRespond(int message_id, String data) {
         Message msg = mServiceHandler.obtainMessage();
         msg.what = message_id;
         Bundle b = new Bundle();
-        b.putString(d1, d2);
+        b.putString(CommonValue.Key, data);
+        msg.setData(b);
+        mServiceHandler.sendMessage(msg);
+    }
+    public void threadRespond(int message_id, int data) {
+        Message msg = mServiceHandler.obtainMessage();
+        msg.what = message_id;
+        Bundle b = new Bundle();
+        b.putInt(CommonValue.Key, data);
         msg.setData(b);
         mServiceHandler.sendMessage(msg);
     }
 
     public List<String> getPkmList() {
-        mNationalList = StaticData.getInstance().getList();
+        mNationalList = PokedexData.getInstance().getList();
         return mNationalList;
     }
 
@@ -89,7 +102,10 @@ public class PokedexMainService extends Service {
                     mServiceCallback.onLoadList();
                     break;
                 case PokedexServiceMessage.MSG_RESPOND_DETAIL_RESULT:
-                    mServiceCallback.onStartPokemonDetail(msg.getData().getString(PokedexServiceMessage.Key));
+                    mServiceCallback.onStartPokemonDetail( msg.getData().getString(CommonValue.Key) );
+                    break;
+                case PokedexServiceMessage.MSG_RESPOND_IMAGE_ID:
+                    mServiceCallback.onUpdatePokemonImage( msg.getData().getInt(CommonValue.Key));
                 default:
                     break;
             }
@@ -97,14 +113,14 @@ public class PokedexMainService extends Service {
     }
 
     public void request(int message) {
-        sendMessage(message, "", "");
+        sendMessage(message, CommonValue.Key, "");
     }
 
     public void request(int message, String data) {
-        sendMessage(message, PokedexServiceMessage.Key, data);
+        sendMessage(message, CommonValue.Key , data);
     }
 
-    public void request(int message, String data1, String data2) {
-        sendMessage(message, data1, data2);
+    public void request(int message, int data) {
+        sendMessage(message, CommonValue.Key, data);
     }
 }

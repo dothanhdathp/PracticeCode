@@ -9,7 +9,7 @@ import android.util.Log;
 import com.data.PokedexServiceMessage;
 
 public class PokedexServiceThread extends Thread {
-    private final String TAG = "PokedexServiceThread-"+CommonValue.getInstance().getOwnner();
+    private final String TAG = "PokedexServiceThread-"+ CommonValue.Arthur;
     private PokedexThreadHandler mHandler = null;
     private PokedexMainService mService = null;
 
@@ -28,15 +28,28 @@ public class PokedexServiceThread extends Thread {
     }
 
     /// post message to ThreadHandler
-    public void postMessage(int message_id, String d1, String d2) {
-        Log.d(TAG, "postMessage: " + message_id +" | "+d1+" | "+d2);
+    public void postMessage(int message_id, String key, String data) {
+        Log.d(TAG, "postMessage: " + message_id +" | "+key+" | "+data);
         if(mHandler == null) {
             mHandler = new PokedexThreadHandler();
         }
         Message msg = mHandler.obtainMessage();
         msg.what = message_id;
         Bundle b = new Bundle();
-        b.putString(d1, d2);
+        b.putString(key, data);
+        msg.setData(b);
+        mHandler.sendMessage(msg);
+    }
+
+    public void postMessage(int message_id, String key, int data) {
+        Log.d(TAG, "postMessage: " + message_id +" | "+key+" | "+data);
+        if(mHandler == null) {
+            mHandler = new PokedexThreadHandler();
+        }
+        Message msg = mHandler.obtainMessage();
+        msg.what = message_id;
+        Bundle b = new Bundle();
+        b.putInt(key, data);
         msg.setData(b);
         mHandler.sendMessage(msg);
     }
@@ -46,20 +59,42 @@ public class PokedexServiceThread extends Thread {
         public void handleMessage(Message msg) {
             Log.d(TAG, "handleMessage: " + msg.what);
             switch (msg.what) {
-                case PokedexServiceMessage.MSG_REQUEST_GETLIST:;
-                    CSVDataParser.getInstance().readData();
-                    mService.threadRespond(PokedexServiceMessage.MSG_RESPOND_GETLIST_DONE, "", "");
-                    break;
-                case PokedexServiceMessage.MSG_REQUEST_DETAIL_BY_NAME:
-                    String data = msg.getData().getString(PokedexServiceMessage.Key);
-                    String result = CSVDataParser.getInstance().findDetailByName(data);
-                    Log.d(TAG, "handleMessage: MSG_REQUEST_DETAIL_BY_NAME | " + data + " | " + result);
-                    if(result != null) {
-                        mService.threadRespond(PokedexServiceMessage.MSG_RESPOND_DETAIL_RESULT, PokedexServiceMessage.Key, result);
+                case PokedexServiceMessage.MSG_REQUEST_GETLIST:
+                    for(int index : AppResourceManager.getInstance().ALL_GEN_INDEX) {
+                        boolean res = AppResourceManager.getInstance().getListName(index);
+                        if(!res) {
+                            Log.d(TAG, "Get List False Gen_"+(index+1));
+                        }
                     }
+                    mService.threadRespond(PokedexServiceMessage.MSG_RESPOND_GETLIST_DONE, "");
                     break;
+
+                case PokedexServiceMessage.MSG_REQUEST_DETAIL_BY_NAME:
+                    onMSG_REQUEST_DETAIL_BY_NAME(msg);
+                    break;
+
+                case PokedexServiceMessage.MSG_REQUEST_DETAIL_BY_NATION_ID:
+                    onMSG_REQUEST_DETAIL_BY_NATION_ID(msg);
+                    break;
+
                 default:
                     break;
+            }
+        }
+
+        public void onMSG_REQUEST_DETAIL_BY_NAME(Message msg) {
+            return;
+        }
+
+        public void onMSG_REQUEST_DETAIL_BY_NATION_ID(Message msg) {
+            int id = msg.getData().getInt(CommonValue.Key);
+            String result = AppResourceManager.getInstance().getDetailById(id);
+            Log.d(TAG, "handleMessage: MSG_REQUEST_DETAIL_BY_NAME | " + id + " | " + result);
+            if(result != null) {
+                mService.threadRespond(PokedexServiceMessage.MSG_RESPOND_DETAIL_RESULT, result);
+                String data[] = result.split(",");
+                int imageId = AppResourceManager.getInstance().getImageIdByName(data[1]);
+                mService.threadRespond(PokedexServiceMessage.MSG_RESPOND_IMAGE_ID, imageId);
             }
         }
     }
