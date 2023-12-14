@@ -8,4 +8,5 @@ public interface IPkmMainServiceCallback {
     public void onLoadList();
     public void onStartPokemonDetail(String data);
     public void onUpdatePokemonImage(int imageID);
+    public void releaseScreen(String classname);
 }

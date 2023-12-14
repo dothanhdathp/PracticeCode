@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
@@ -15,8 +17,10 @@ import android.widget.ListView;
 
 import com.activity.pokedex2.R;
 import com.data.PokedexServiceMessage;
+import com.interfaces.IPkmMainServiceCallback;
 import com.service.CommonValue;
 import com.service.PokedexMainService;
+
 
 import java.security.PrivilegedExceptionAction;
 import java.util.List;
@@ -35,6 +39,7 @@ public class PokedexListFragment extends Fragment {
     private ListAdapter mPokemonListViewAdapter;
     private ListView mPokemonListView;
     private PokedexMainService mService;
+    private IPkmMainServiceCallback mAppCallback = null;
 
     private AdapterView.OnItemClickListener onItemClicked = new AdapterView.OnItemClickListener() {
         @Override
@@ -51,8 +56,9 @@ public class PokedexListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public void init(PokedexMainService service) {
+    public void init(PokedexMainService service, IPkmMainServiceCallback callback) {
         mService = service;
+        mAppCallback = callback;
     }
 
     public void deinit(PokedexMainService service) {
@@ -77,6 +83,12 @@ public class PokedexListFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_pokedex_list, container, false);
         startFragment();
         return mView;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mAppCallback.releaseScreen(this.getClass().getSimpleName());
     }
 
     public void setListData(List<String> list) {

@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -18,7 +20,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.activity.pokedex2.R;
+import com.interfaces.IPkmMainServiceCallback;
 import com.service.CommonValue;
+import com.service.PokedexMainService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +35,16 @@ public class PokedexDetailFragment extends Fragment {
     private View mView;
     private String mData;
     private int mImageResourceId;
+    private IPkmMainServiceCallback mAppCallback = null;
+    private PokedexMainService mService = null;
+
+    private OnTouchListener TouchListener = new OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            Log.d(TAG, "onTouch: Touched!!!");
+            return false;
+        }
+    };
 
     public PokedexDetailFragment() {
         // Required empty public constructor
@@ -41,6 +55,11 @@ public class PokedexDetailFragment extends Fragment {
             mInstance = new PokedexDetailFragment();
         }
         return mInstance;
+    }
+
+    public void init(PokedexMainService service, IPkmMainServiceCallback callback) {
+        mService = service;
+        mAppCallback = callback;
     }
 
     @Override
@@ -56,6 +75,12 @@ public class PokedexDetailFragment extends Fragment {
         loadImage();
         loadData();
         return mView;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mAppCallback.releaseScreen(this.getClass().getSimpleName());
     }
 
     public void updateImage(int id) {
@@ -110,16 +135,19 @@ public class PokedexDetailFragment extends Fragment {
                 String.valueOf(hp + atk + def + satk + sdef + spd)
         );
 
-        ((ProgressBar)mView.findViewById(R.id.p_bar_hp)).setProgress(  (int)(hp*100/255));
-        ((ProgressBar)mView.findViewById(R.id.p_bar_atk)).setProgress( (int)(atk*100/255));
-        ((ProgressBar)mView.findViewById(R.id.p_bar_def)).setProgress( (int)(def*100/255));
-        ((ProgressBar)mView.findViewById(R.id.p_bar_Satk)).setProgress((int)(satk*100/255));
-        ((ProgressBar)mView.findViewById(R.id.p_bar_Sdef)).setProgress((int)(sdef*100/255));
-        ((ProgressBar)mView.findViewById(R.id.p_bar_spd)).setProgress( (int)(spd*100/255));
+        ((ProgressBar)mView.findViewById(R.id.p_bar_hp   )).setProgress( (hp   * 100) / 255);
+        ((ProgressBar)mView.findViewById(R.id.p_bar_atk  )).setProgress( (atk  * 100) / 255);
+        ((ProgressBar)mView.findViewById(R.id.p_bar_def  )).setProgress( (def  * 100) / 255);
+        ((ProgressBar)mView.findViewById(R.id.p_bar_Satk )).setProgress( (satk * 100) / 255);
+        ((ProgressBar)mView.findViewById(R.id.p_bar_Sdef )).setProgress( (sdef * 100) / 255);
+        ((ProgressBar)mView.findViewById(R.id.p_bar_spd  )).setProgress( (spd  * 100) / 255);
     }
 
     private void loadImage() {
         if(mView == null) return;
-        ((ImageView)mView.findViewById(R.id.pokemon_image)).setImageResource(mImageResourceId);
+        ImageView image = (ImageView)mView.findViewById(R.id.pokemon_image);
+        image.setImageResource(mImageResourceId);
+        image.setOnTouchListener(TouchListener);
+//        ((ImageView)mView.findViewById(R.id.pokemon_image)).setImageResource(mImageResourceId);
     }
 }

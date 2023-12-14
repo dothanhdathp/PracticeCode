@@ -39,12 +39,18 @@ import com.service.PokedexMainService;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 
 public class PokedexMainActivity extends AppCompatActivity implements IPkmMainServiceCallback {
     private static String TAG = "PokedexMainActivity-" + CommonValue.Arthur;
     private PokedexMainService mPokedexMainService = null;
     private ServiceConnection mServiceConnection = null;
+    private HashMap<String, Fragment> mFragmentTable = new HashMap<String, Fragment>();
+    private final String FRAGMENT_LOADING = PokedexLoadingFragment.getInstance().getClass().getSimpleName();
+    private final String FRAGMENT_LIST    = PokedexListFragment.getInstance().getClass().getSimpleName();
+    private final String FRAGMENT_DETAIL  = PokedexDetailFragment.getInstance().getClass().getSimpleName();
+    private String mLastScreen = "NO_SCREEN";
 
     private void init() {
 //        String data = this.getString(R.string.Gen1);
@@ -57,13 +63,15 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
                     mPokedexMainService = service_binder.getService();
                     // Give context to service
                     mPokedexMainService.init(PokedexMainActivity.this);
-                    PokedexListFragment.getInstance().init(mPokedexMainService);
+                    PokedexListFragment.getInstance().init(mPokedexMainService, PokedexMainActivity.this);
+                    PokedexDetailFragment.getInstance().init(mPokedexMainService, PokedexMainActivity.this);
                 }
 
                 @Override
                 public void onServiceDisconnected(ComponentName componentName) {
                     Log.d(TAG, "onServiceDisconnected");
-                    PokedexListFragment.getInstance().init(null);
+                    PokedexListFragment.getInstance().init(null, null);
+                    PokedexDetailFragment.getInstance().init(null, null);
                 }
             };
         }
@@ -95,7 +103,11 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokedex_main);
+        mFragmentTable.put(PokedexLoadingFragment.getInstance().getClass().getSimpleName(), PokedexLoadingFragment.getInstance());
+        mFragmentTable.put(PokedexListFragment.getInstance().getClass().getSimpleName(), PokedexListFragment.getInstance());
+        mFragmentTable.put(PokedexDetailFragment.getInstance().getClass().getSimpleName(), PokedexDetailFragment.getInstance());
         AppResourceManager.getInstance().init(this.getApplicationContext(), getResources());
+        startFragment(FRAGMENT_LOADING);
         init();
     }
 
@@ -108,7 +120,9 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume: ");
+        Log.d(TAG, "onResume: mLastScreen = " + mLastScreen);
+        /// Call last fragment
+        startFragment(mLastScreen);
     }
 
     @Override
@@ -146,22 +160,28 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
 
     public void onLoadList() {
         PokedexListFragment.getInstance().setListData(mPokedexMainService.getPkmList());
-        startFragment(PokedexListFragment.getInstance());
+        startFragment(FRAGMENT_LIST);
     }
 
     public void onStartPokemonDetail(String data) {
         PokedexDetailFragment.getInstance().setDataInfo(data);
-        startFragment(PokedexDetailFragment.getInstance());
+        startFragment(FRAGMENT_DETAIL);
     }
 
-    public void startFragment(Fragment fragment) {
-        if(fragment == null)
-            return;
+    public void releaseScreen(String screen) {
+        if (screen.equals(FRAGMENT_DETAIL)) {
+            mLastScreen = FRAGMENT_LIST;
+        }
+    };
 
-        String tag = fragment.getClass().getSimpleName();
-        Fragment frm_check = getSupportFragmentManager().findFragmentByTag(tag);
-        if(frm_check == null) {
-            /// Fragment not exits, add
+    public void startFragment(String tag) {
+        Fragment fragment = mFragmentTable.get(tag);
+        if(fragment == null) {
+            Log.d(TAG, "startFragment: Not have screen " + tag);
+            return;
+        }
+
+        if(mLastScreen.equals("NO_SCREEN")) {
             getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.main_frame, fragment, tag)
@@ -170,14 +190,14 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
         } else {
             getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_frame ,fragment, tag)
+                .replace(R.id.main_frame, fragment, tag)
                 .addToBackStack(null)
                 .commit();
         }
+        mLastScreen = tag;
     }
 
     public void onUpdatePokemonImage(int imageID) {
-        Log.d(TAG, "onUpdatePokemonImage: Charizard = " + R.drawable.charizard +"/"+ imageID);
         PokedexDetailFragment.getInstance().updateImage(imageID);
     }
 }
