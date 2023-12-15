@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.activity.pokedex2.R;
+import com.data.PokedexServiceMessage;
 import com.interfaces.IPkmMainServiceCallback;
 import com.service.CommonValue;
 import com.service.PokedexMainService;
@@ -37,11 +38,18 @@ public class PokedexDetailFragment extends Fragment {
     private int mImageResourceId;
     private IPkmMainServiceCallback mAppCallback = null;
     private PokedexMainService mService = null;
+    private int mNationIndex = 0;
 
     private OnTouchListener TouchListener = new OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            Log.d(TAG, "onTouch: Touched!!!");
+            float w = (float)view.getWidth();
+            float half = (float) (w/2.0);
+            if(motionEvent.getX() > half) {
+                mService.request(PokedexServiceMessage.MSG_REQUEST_DETAIL_BY_NATION_ID, (mNationIndex + 1));
+            } else {
+                mService.request(PokedexServiceMessage.MSG_REQUEST_DETAIL_BY_NATION_ID, (mNationIndex - 1));
+            }
             return false;
         }
     };
@@ -80,7 +88,7 @@ public class PokedexDetailFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mAppCallback.releaseScreen(this.getClass().getSimpleName());
+        mAppCallback.onReleaseScreen(this.getClass().getSimpleName());
     }
 
     public void updateImage(int id) {
@@ -97,6 +105,8 @@ public class PokedexDetailFragment extends Fragment {
         if((mData == null) || (mView == null)) return;
 
         String info[] = mData.split(",");
+        mNationIndex = Integer.parseInt(info[0]);
+
         int hp   = Integer.parseInt(info[4]);
         int atk  = Integer.parseInt(info[5]);
         int def  = Integer.parseInt(info[6]);
@@ -135,12 +145,12 @@ public class PokedexDetailFragment extends Fragment {
                 String.valueOf(hp + atk + def + satk + sdef + spd)
         );
 
-        ((ProgressBar)mView.findViewById(R.id.p_bar_hp   )).setProgress( (hp   * 100) / 255);
-        ((ProgressBar)mView.findViewById(R.id.p_bar_atk  )).setProgress( (atk  * 100) / 255);
-        ((ProgressBar)mView.findViewById(R.id.p_bar_def  )).setProgress( (def  * 100) / 255);
-        ((ProgressBar)mView.findViewById(R.id.p_bar_Satk )).setProgress( (satk * 100) / 255);
-        ((ProgressBar)mView.findViewById(R.id.p_bar_Sdef )).setProgress( (sdef * 100) / 255);
-        ((ProgressBar)mView.findViewById(R.id.p_bar_spd  )).setProgress( (spd  * 100) / 255);
+        ((ProgressBar)mView.findViewById(R.id.p_bar_hp   )).setProgress( (100*hp  ) / 255 );
+        ((ProgressBar)mView.findViewById(R.id.p_bar_atk  )).setProgress( (100*atk ) / 255 );
+        ((ProgressBar)mView.findViewById(R.id.p_bar_def  )).setProgress( (100*def ) / 255 );
+        ((ProgressBar)mView.findViewById(R.id.p_bar_Satk )).setProgress( (100*satk) / 255 );
+        ((ProgressBar)mView.findViewById(R.id.p_bar_Sdef )).setProgress( (100*sdef) / 255 );
+        ((ProgressBar)mView.findViewById(R.id.p_bar_spd  )).setProgress( (100*spd ) / 255 );
     }
 
     private void loadImage() {

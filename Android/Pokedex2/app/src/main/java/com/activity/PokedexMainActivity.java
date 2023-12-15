@@ -145,7 +145,7 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
         mServiceConnection = null;
     }
 
-    /// *** Service callback *** ///
+    /// ********** Service callback ********** ///
     public void onCallLog(String log_test) {
         Log.d(TAG, "onCallLog: " + log_test);
     }
@@ -168,11 +168,17 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
         startFragment(FRAGMENT_DETAIL);
     }
 
-    public void releaseScreen(String screen) {
+    public void onReleaseScreen(String screen) {
         if (screen.equals(FRAGMENT_DETAIL)) {
             mLastScreen = FRAGMENT_LIST;
         }
     };
+
+    public void onUpdateSearchList() {
+        PokedexListFragment.getInstance().setSearchList(mPokedexMainService.getSearchPkmList());
+    };
+
+    /// ********** Service callback ********** ///
 
     public void startFragment(String tag) {
         Fragment fragment = mFragmentTable.get(tag);

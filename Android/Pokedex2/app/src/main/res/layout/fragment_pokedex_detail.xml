@@ -21,9 +21,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textSize="50dp"
+                android:textSize="40dp"
                 android:gravity="center"
-                android:fontFamily="serif-monospace"
+                android:fontFamily="sans-serif-black"
                 android:text="Pokemon"/>
             <!-- Image -->
             <ImageView
@@ -31,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
                 android:gravity="center"
+                android:layout_marginTop="20dp"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="37dp" />
             <!-- Type zone -->
@@ -44,12 +45,16 @@
                     android:id="@+id/p_type_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TYPE1" />
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-black"
+                    android:text="" />
                 <Button
                     android:id="@+id/p_type_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TYPE2" />
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-black"
+                    android:text="" />
             </LinearLayout>
             <!-- Stats zone -->
             <!--        HP  -->
@@ -85,6 +90,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_toRightOf="@+id/p_hp"
                     android:layout_alignParentRight="true"
+                    android:progressBackgroundTint="@color/loblolly"
                     android:scaleY="5"/>
             </RelativeLayout>
             <!--        Atk -->
@@ -119,6 +125,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_toRightOf="@+id/p_atk"
                     android:layout_alignParentRight="true"
+                    android:progressBackgroundTint="@color/loblolly"
                     android:scaleY="5"/>
             </RelativeLayout>
             <!--        Def -->
@@ -153,6 +160,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_toRightOf="@+id/p_def"
                     android:layout_alignParentRight="true"
+                    android:progressBackgroundTint="@color/loblolly"
                     android:scaleY="5"/>
             </RelativeLayout>
             <!--        Satk-->
@@ -187,6 +195,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_toRightOf="@+id/p_Satk"
                     android:layout_alignParentRight="true"
+                    android:progressBackgroundTint="@color/loblolly"
                     android:scaleY="5"/>
             </RelativeLayout>
             <!--        Sdef-->
@@ -221,6 +230,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_toRightOf="@+id/p_Sdef"
                     android:layout_alignParentRight="true"
+                    android:progressBackgroundTint="@color/loblolly"
                     android:scaleY="5"/>
             </RelativeLayout>
             <!--        spd -->
@@ -255,6 +265,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_toRightOf="@+id/p_spd"
                     android:layout_alignParentRight="true"
+                    android:progressBackgroundTint="@color/loblolly"
                     android:scaleY="5"/>
             </RelativeLayout>
 

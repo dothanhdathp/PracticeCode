@@ -60,13 +60,7 @@ public class PokedexServiceThread extends Thread {
             Log.d(TAG, "handleMessage: " + msg.what);
             switch (msg.what) {
                 case PokedexServiceMessage.MSG_REQUEST_GETLIST:
-                    for(int index : AppResourceManager.getInstance().ALL_GEN_INDEX) {
-                        boolean res = AppResourceManager.getInstance().getListName(index);
-                        if(!res) {
-                            Log.d(TAG, "Get List False Gen_"+(index+1));
-                        }
-                    }
-                    mService.threadRespond(PokedexServiceMessage.MSG_RESPOND_GETLIST_DONE, "");
+                    onMSG_REQUEST_GETLIST(msg);
                     break;
 
                 case PokedexServiceMessage.MSG_REQUEST_DETAIL_BY_NAME:
@@ -77,17 +71,28 @@ public class PokedexServiceThread extends Thread {
                     onMSG_REQUEST_DETAIL_BY_NATION_ID(msg);
                     break;
 
+                case PokedexServiceMessage.MSG_REQUEST_SEARCH_NAME:
+                    onMSG_REQUEST_SEARCH_NAME(msg);
+                    break;
                 default:
                     break;
             }
         }
 
-        public void onMSG_REQUEST_DETAIL_BY_NAME(Message msg) {
+        public void onMSG_REQUEST_GETLIST(Message msg) {
+            for(int index : AppResourceManager.getInstance().ALL_GEN_INDEX) {
+                boolean res = AppResourceManager.getInstance().getListName(index);
+                if(!res) {
+                    Log.d(TAG, "Get List False Gen_"+(index+1));
+                }
+                mService.threadRespond(PokedexServiceMessage.MSG_RESPOND_GETLIST_DONE, "");
+            }
             return;
         }
 
-        public void onMSG_REQUEST_DETAIL_BY_NATION_ID(Message msg) {
-            int id = msg.getData().getInt(CommonValue.Key);
+        public void onMSG_REQUEST_DETAIL_BY_NAME(Message msg) {
+            String name = msg.getData().getString(CommonValue.Key);
+            int id = AppResourceManager.getInstance().getIdByName(name);
             String result = AppResourceManager.getInstance().getDetailById(id);
             Log.d(TAG, "handleMessage: MSG_REQUEST_DETAIL_BY_NAME | " + id + " | " + result);
             if(result != null) {
@@ -96,6 +101,24 @@ public class PokedexServiceThread extends Thread {
                 int imageId = AppResourceManager.getInstance().getImageIdByName(data[1]);
                 mService.threadRespond(PokedexServiceMessage.MSG_RESPOND_IMAGE_ID, imageId);
             }
+        }
+
+        public void onMSG_REQUEST_DETAIL_BY_NATION_ID(Message msg) {
+            int id = msg.getData().getInt(CommonValue.Key);
+            String result = AppResourceManager.getInstance().getDetailById(id);
+            Log.d(TAG, "handleMessage: MSG_REQUEST_DETAIL_BY_NATION_ID | " + id + " | " + result);
+            if(result != null) {
+                mService.threadRespond(PokedexServiceMessage.MSG_RESPOND_DETAIL_RESULT, result);
+                String data[] = result.split(",");
+                int imageId = AppResourceManager.getInstance().getImageIdByName(data[1]);
+                mService.threadRespond(PokedexServiceMessage.MSG_RESPOND_IMAGE_ID, imageId);
+            }
+        }
+
+        public void onMSG_REQUEST_SEARCH_NAME(Message msg) {
+            String name = msg.getData().getString(CommonValue.Key);
+            AppResourceManager.getInstance().getSearchListForName(name);
+            mService.threadRespond(PokedexServiceMessage.MSG_RESPOND_SEARCH_LIST_DONE);
         }
     }
 }

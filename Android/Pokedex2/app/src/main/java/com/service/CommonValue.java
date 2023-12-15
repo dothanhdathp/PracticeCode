@@ -10,7 +10,7 @@ public class CommonValue {
 
     private HashMap<String, Integer> mColor;
 
-    private static CommonValue mInstance;
+    private static CommonValue mInstance;;
 
     public static CommonValue getInstance() {
         if(mInstance == null) {
@@ -53,7 +53,7 @@ public class CommonValue {
             case "GROUND"   : { value = 0xFFD38C00; break; }
             case "FLYING"   : { value = 0xFFB3E2FF; break; }
             case "PSYCHIC"  : { value = 0xFFE88DFF; break; }
-            case "BUG"      : { value = 0xFFC0FE33; break; }
+            case "BUG"      : { value = 0xFF9DBD3D; break; }
             case "ROCK"     : { value = 0xFF857B52; break; }
             case "GHOST"    : { value = 0xFF443061; break; }
             case "DRAGON"   : { value = 0xFF4B5B91; break; }
