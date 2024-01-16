@@ -1,0 +1,3 @@
+https://stackoverflow.com/questions/39960880/notificationlistenerservice-sendbroadcast-not-working
+https://github.com/Chagall/notification-listener-service-example
+javacodegeeks.com/2013/10/android-notificationlistenerservice-example.html
