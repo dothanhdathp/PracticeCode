@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -145,6 +146,19 @@ public class PokedexMainActivity extends AppCompatActivity implements IPkmMainSe
         mServiceConnection = null;
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Log.d(TAG, "onConfigurationChanged: Landscape");
+            // When land scape, update layout of app
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Log.d(TAG, "onConfigurationChanged: Portrait");
+            // When land scape, update layout of app
+        }
+    }
     /// ********** Service callback ********** ///
     public void onCallLog(String log_test) {
         Log.d(TAG, "onCallLog: " + log_test);

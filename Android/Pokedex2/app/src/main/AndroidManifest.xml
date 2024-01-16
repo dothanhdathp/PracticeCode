@@ -23,7 +23,8 @@
             android:name="com.activity.pokedex2.PokedexMainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
-            android:theme="@style/Theme.Pokedex2">
+            android:theme="@style/Theme.Pokedex2"
+            android:configChanges="screenSize|orientation|screenLayout|navigation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER" />
