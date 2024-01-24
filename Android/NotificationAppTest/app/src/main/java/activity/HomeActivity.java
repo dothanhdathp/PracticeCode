@@ -1,10 +1,12 @@
 package activity;
 
 import common.AppInfo;
+import javaclass.TestFunction;
 import javaclass.TestInfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -13,6 +15,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Checkable;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,6 +42,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         AppInfo.getInstance().setApplicationContext(getApplicationContext());
         AppInfo.getInstance().setWindowManager(getWindowManager());
+        AppInfo.getInstance().addDrawAbleId("pkm_icon", R.drawable.pkm_icon);
+        AppInfo.getInstance().addDrawAbleId("cpp_icon", R.drawable.cpp_icon);
+        this.getSystemService(NotificationManager.class);
         mMainLayout = (LinearLayout)findViewById(R.id.main_layout);
         generateUI();
     }
@@ -44,6 +52,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        TestFunction.getInstance().unlistenningAll();
     }
 
     @Override
@@ -95,6 +104,19 @@ public class HomeActivity extends AppCompatActivity {
         mMainLayout.addView(button);
     }
 
+    private void AddCheckBox(String content, CompoundButton.OnCheckedChangeListener onCheck) {
+        CheckBox checkBox = new CheckBox(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.gravity = Gravity.CENTER_VERTICAL;
+        lp.topMargin = 10;
+        checkBox.setLayoutParams(lp);
+        checkBox.setText(content);
+        checkBox.setOnCheckedChangeListener(onCheck);
+        mMainLayout.addView(checkBox);
+    }
+
     private void generateUI()
     {
         AddTextView("Screen size (WxH): " + TestInfo.getInstance().getScreenSize());
@@ -103,9 +125,69 @@ public class HomeActivity extends AppCompatActivity {
         AddTextView("Device: " + android.os.Build.DEVICE);
         AddTextView("Model: " + android.os.Build.MODEL);
         AddTextView("Product: " + android.os.Build.PRODUCT);
+        AddTextView("Version: " + TestFunction.getInstance().currentVersion());
+        AddTextView("Package Name: " + getApplicationContext().getPackageName());
 
-        AddButton("Button 1", null);
-        AddButton("Button 2", null);
-        AddButton("Button 3", null);
+        AddButton("Pokeball Icon", TestFunction.getInstance().onButtonNotification(
+            "Pokeball",
+            "pokeball_icon",
+            R.drawable.pkm_icon
+        ));
+
+        AddButton("Cpp Icon", TestFunction.getInstance().onButtonNotification(
+            "CPP",
+            "cpp_icon",
+            R.drawable.cpp_icon
+        ));
+
+        AddButton("Plain text 1 no icon", TestFunction.getInstance().onButtonNotification(
+            null,
+            "This is plain text only",
+            R.drawable.pkm_icon
+        ));
+
+        AddButton("Plain text 2 no icon", TestFunction.getInstance().onButtonNotification(
+            null,
+            "This is new plain text!",
+            R.drawable.cpp_icon
+        ));
+
+        AddCheckBox(
+            "Broadcast MESSAGE_1 = 'Pokeball Icon'",
+            TestFunction.getInstance().creatListener(
+                "MESSAGE_1",
+                "Pokeball",
+                "pokeball_icon",
+                R.drawable.pkm_icon
+            )
+        );
+
+        AddCheckBox(
+            "Broadcast MESSAGE_2 = 'Cpp Icon'",
+            TestFunction.getInstance().creatListener(
+                "MESSAGE_2",
+                "CPP",
+                "cpp_icon",
+                R.drawable.cpp_icon
+            )
+        );
+        AddCheckBox(
+            "Broadcast MESSAGE_3 = 'Plain text 1 no icon'",
+            TestFunction.getInstance().creatListener(
+                "MESSAGE_3",
+                null,
+                "This is plain text only",
+                R.drawable.pkm_icon
+            )
+        );
+        AddCheckBox(
+            "Broadcast MESSAGE_4 = 'Plain text 2 no icon'",
+            TestFunction.getInstance().creatListener(
+                "MESSAGE_4",
+                null,
+                "This is new plain text!",
+                R.drawable.cpp_icon
+            )
+        );
     }
 }
