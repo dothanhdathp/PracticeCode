@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,6 +28,8 @@ import com.example.testapptemplate.R;
 
 public class HomeActivity extends AppCompatActivity {
     private final String TAG = AppInfo.OWNER+"HomeActivity";
+    private final int TOP_MARGIN = 5;
+
     LinearLayout mMainLayout = null;
     Context mContext = null;
     View.OnClickListener defaultButtonClicked = new View.OnClickListener() {
@@ -42,8 +46,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         AppInfo.getInstance().setApplicationContext(getApplicationContext());
         AppInfo.getInstance().setWindowManager(getWindowManager());
-        AppInfo.getInstance().addDrawAbleId("pkm_icon", R.drawable.pkm_icon);
-        AppInfo.getInstance().addDrawAbleId("cpp_icon", R.drawable.cpp_icon);
+        AppInfo.getInstance().addDrawAbleId("pkm_icon", R.drawable.pkb);
+        AppInfo.getInstance().addDrawAbleId("cpp_icon", R.drawable.cpp);
         this.getSystemService(NotificationManager.class);
         mMainLayout = (LinearLayout)findViewById(R.id.main_layout);
         generateUI();
@@ -81,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.CENTER_VERTICAL;
-        lp.topMargin = 10;
+        lp.topMargin = TOP_MARGIN;
         text_view.setLayoutParams(lp);
         text_view.setText(text);
         mMainLayout.addView(text_view);
@@ -93,7 +97,7 @@ public class HomeActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL;
-        lp.topMargin = 10;
+        lp.topMargin = TOP_MARGIN;
         button.setLayoutParams(lp);
         button.setText(content);
         if(event!=null) {
@@ -110,7 +114,7 @@ public class HomeActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.CENTER_VERTICAL;
-        lp.topMargin = 10;
+        lp.topMargin = TOP_MARGIN;
         checkBox.setLayoutParams(lp);
         checkBox.setText(content);
         checkBox.setOnCheckedChangeListener(onCheck);
@@ -119,6 +123,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void generateUI()
     {
+        AddTextView("Package Name: " + getApplicationContext().getPackageName());
         AddTextView("Screen size (WxH): " + TestInfo.getInstance().getScreenSize());
         AddTextView("AndroidOS: " + System.getProperty("os.version"));
         AddTextView("SDK: " + android.os.Build.VERSION.SDK);
@@ -126,17 +131,16 @@ public class HomeActivity extends AppCompatActivity {
         AddTextView("Model: " + android.os.Build.MODEL);
         AddTextView("Product: " + android.os.Build.PRODUCT);
         AddTextView("Version: " + TestFunction.getInstance().currentVersion());
-        AddTextView("Package Name: " + getApplicationContext().getPackageName());
 
         AddButton("Pokeball Icon", TestFunction.getInstance().onButtonNotification(
             "Pokeball",
-            "pokeball_icon",
+            "[pokeball_icon] Hello this is fucking long long long long long long long long long length text",
             R.drawable.pkm_icon
         ));
 
         AddButton("Cpp Icon", TestFunction.getInstance().onButtonNotification(
             "CPP",
-            "cpp_icon",
+            "[cpp_icon] Hello this is fucking long long long long long long long long long length text and doublt :)) Hello this is fucking long long long long long long long long long length text",
             R.drawable.cpp_icon
         ));
 
@@ -151,6 +155,9 @@ public class HomeActivity extends AppCompatActivity {
             "This is new plain text!",
             R.drawable.cpp_icon
         ));
+
+        AddTextView("Use command below to send MESSAGE_?");
+        AddTextView("adb shell \"am broadcast -a MESSAGE_x --es sms_body 'adb' -n com.example.testapptemplate/receiver.AppReceiver\"");
 
         AddCheckBox(
             "Broadcast MESSAGE_1 = 'Pokeball Icon'",

@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="activity.HomeActivity">
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,6 +13,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </TextView>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
