@@ -18,15 +18,27 @@ public class AppReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String mess = intent.getAction().toString();
+        Log.d(TAG, "onReceive: " + mess);
         if(mess.equals("MESSAGE_TEST")) {
-//            TestFunction.getInstance().makeNotification(
-//        "MESSAGE_TEST",
-//                intent.getDataString(),
-//                  to do late
-//            );
+            Log.d(TAG, "MESSAGE_TEST is test_message, no action!");
         } else {
-            Log.d(TAG, "onReceive: " + mess);
-            TestFunction.getInstance().onListen(mess);
+            switch (mess) {
+                case "MESSAGE_1":
+                case "MESSAGE_2":
+                case "MESSAGE_3":
+                case "MESSAGE_4":
+                    TestFunction.getInstance().onListen(mess);
+                    break;
+                // WHITE_LIST_MESSAGE
+                case "MESSAGE_ANDROID_AUTO":
+                case "MESSAGE_ANDROID_CARPLAY":
+                    break;
+                // BLACK_LIST_MESSAGE
+                case "MESSAGE_BLACK_1":
+                case "MESSAGE_BLACK_2":
+                default:
+                    break;
+            }
         }
     }
 }

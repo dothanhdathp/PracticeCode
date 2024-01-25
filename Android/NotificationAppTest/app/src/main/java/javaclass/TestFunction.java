@@ -2,6 +2,7 @@ package javaclass;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
@@ -82,6 +83,8 @@ public class TestFunction {
         if(title!=null) builder.setContentTitle(title);
         builder.setContentText(text);
         builder.setSmallIcon(iconId);
+        builder.setPriority(NotificationManager.IMPORTANCE_MIN);
+        builder.setCategory(Notification.CATEGORY_SERVICE);
         notificationManager.notify(1, builder.build());
     }
 
@@ -90,15 +93,6 @@ public class TestFunction {
             @Override
             public void onClick(View v) {
                 makeNotification(title, text, iconId);
-//                NotificationManager notificationManager =
-//                        (NotificationManager)AppInfo.getInstance().getSystemService(NOTIFICATION_SERVICE);
-//                NotificationCompat.Builder builder = new NotificationCompat.Builder(
-//                        AppInfo.getInstance().getApplicationContext(),
-//                        AppInfo.CHANNEL_ID);
-//                builder.setContentTitle(title);
-//                builder.setContentText(text);
-//                builder.setSmallIcon(iconId);
-//                notificationManager.notify(1, builder.build());
             }
         };
     }

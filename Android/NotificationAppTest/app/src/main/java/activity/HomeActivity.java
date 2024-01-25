@@ -16,11 +16,13 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.testapptemplate.R;
@@ -28,7 +30,6 @@ import com.example.testapptemplate.R;
 
 public class HomeActivity extends AppCompatActivity {
     private final String TAG = AppInfo.OWNER+"HomeActivity";
-    private final int TOP_MARGIN = 5;
 
     LinearLayout mMainLayout = null;
     Context mContext = null;
@@ -79,50 +80,52 @@ public class HomeActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    private void AddTextView(String text) {
+    private TextView AddTextView(String text) {
         TextView text_view = new TextView(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.gravity = Gravity.CENTER_VERTICAL;
-        lp.topMargin = TOP_MARGIN;
-        text_view.setLayoutParams(lp);
+        text_view.setLayoutParams(Default.getInstance().newLayout(Default.LAYOUT_TEXTVIEW));
         text_view.setText(text);
         mMainLayout.addView(text_view);
+        return text_view;
     }
 
-    private void AddButton(String content, View.OnClickListener event) {
+    private Button AddButton(String content, View.OnClickListener event) {
         Button button = new Button(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.gravity = Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL;
-        lp.topMargin = TOP_MARGIN;
-        button.setLayoutParams(lp);
+        button.setLayoutParams(Default.getInstance().newLayout(Default.LAYOUT_BUTTON));
         button.setText(content);
-        if(event!=null) {
-            button.setOnClickListener(event);
-        } else {
+        if(event==null) {
             button.setOnClickListener(defaultButtonClicked);
+            return button;
         }
+        button.setOnClickListener(event);
         mMainLayout.addView(button);
+        return button;
     }
 
-    private void AddCheckBox(String content, CompoundButton.OnCheckedChangeListener onCheck) {
-        CheckBox checkBox = new CheckBox(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.gravity = Gravity.CENTER_VERTICAL;
-        lp.topMargin = TOP_MARGIN;
-        checkBox.setLayoutParams(lp);
-        checkBox.setText(content);
-        checkBox.setOnCheckedChangeListener(onCheck);
-        mMainLayout.addView(checkBox);
+    private CheckBox AddCheckBox(String content, CompoundButton.OnCheckedChangeListener onCheck) {
+        CheckBox check_box = new CheckBox(this);
+        check_box.setLayoutParams(Default.getInstance().newLayout(Default.LAYOUT_CHECKBOX));
+        check_box.setText(content);
+        check_box.setOnCheckedChangeListener(onCheck);
+        mMainLayout.addView(check_box);
+        return check_box;
+    }
+
+    private void AddDropDownBox(String[] list) {
+        Spinner spinner = new Spinner(this);
+        spinner.setLayoutParams(Default.getInstance().newLayout(Default.LAYOUT_DROPLIST));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setScrollBarSize(60);
+        mMainLayout.addView(spinner);
     }
 
     private void generateUI()
     {
+        /** NOTE
+         * This Zone show device environment which run test. In future when need check
+         */
         AddTextView("Package Name: " + getApplicationContext().getPackageName());
         AddTextView("Screen size (WxH): " + TestInfo.getInstance().getScreenSize());
         AddTextView("AndroidOS: " + System.getProperty("os.version"));
@@ -132,9 +135,21 @@ public class HomeActivity extends AppCompatActivity {
         AddTextView("Product: " + android.os.Build.PRODUCT);
         AddTextView("Version: " + TestFunction.getInstance().currentVersion());
 
+        /** NOTE
+         * This zone is button.
+         * Click on button will do the function test
+         * */
+        AddDropDownBox(new String[]{"1", "2", "3"});
+        AddDropDownBox(new String[]{"4", "5", "6"});
+        AddDropDownBox(new String[]{"9", "8", "7"});
+
+         /** NOTE
+         * This zone is button.
+         * Click on button will do the function test
+         * */
         AddButton("Pokeball Icon", TestFunction.getInstance().onButtonNotification(
             "Pokeball",
-            "[pokeball_icon] Hello this is fucking long long long long long long long long long length text",
+            "[pokeball_icon] This is normal text",
             R.drawable.pkm_icon
         ));
 
@@ -152,13 +167,29 @@ public class HomeActivity extends AppCompatActivity {
 
         AddButton("Plain text 2 no icon", TestFunction.getInstance().onButtonNotification(
             null,
-            "This is new plain text!",
+            "This is new long text! long long long long long long long long long long long long long long long long long long long long long long long long long man!",
             R.drawable.cpp_icon
         ));
 
+        // white-list
+        for (String i : new String[]{
+                "com.humaxdigital.automotive.radio",
+                "com.humaxdigital.media.usbmusic",
+                "com.humaxdigital.media.video",
+                "com.humaxdigital.media.mymusic",
+                "com.humaxdigital.media.myvideo",
+                "com.humaxdigital.carplay",
+                "com.humaxdigital.androidauto"
+        }) {
+
+        }
+        /** NOTE
+         * This zone is check button. When checked, this app will take an message and create notification base on test content
+         * */
         AddTextView("Use command below to send MESSAGE_?");
         AddTextView("adb shell \"am broadcast -a MESSAGE_x --es sms_body 'adb' -n com.example.testapptemplate/receiver.AppReceiver\"");
 
+        // -------------------- CHECKBOX -------------------- //
         AddCheckBox(
             "Broadcast MESSAGE_1 = 'Pokeball Icon'",
             TestFunction.getInstance().creatListener(

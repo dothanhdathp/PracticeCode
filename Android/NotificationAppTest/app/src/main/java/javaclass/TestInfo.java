@@ -1,8 +1,12 @@
 package javaclass;
 
+import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.os.Build;
+
+import com.example.testapptemplate.R;
 
 import common.AppInfo;
 
@@ -25,5 +29,13 @@ public class TestInfo
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
         return (String.valueOf(width) + "x" + String.valueOf(height));
+    }
+
+    private String[] TestServiceNameArray = null;
+    public String[] getServicesList() {
+        if(TestServiceNameArray == null) {
+            Resources r = AppInfo.getInstance().getApplicationContext().getResources();
+            XmlResourceParser parser = r.getXml(R.xml.sevic_names);
+        }
     }
 }
