@@ -1,16 +1,21 @@
 package javaclass;
 
-import static android.content.Context.NOTIFICATION_SERVICE;
+import static android.content.Context.*;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.Service;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 
 import androidx.core.app.NotificationCompat;
+
+import com.example.testapptemplate.R;
 
 import java.util.HashMap;
 import common.AppInfo;
@@ -20,13 +25,23 @@ public class TestFunction {
     private final String TAG = AppInfo.OWNER+"TestFunction";
     private TestFunction() {};
     private static TestFunction mInstance = null;
+
+    // For check box
     private HashMap<String, AppReceiver> mReceiveHashMap = new HashMap<String, AppReceiver>();
     private HashMap<String, NotiData> mNotificationTestBox = new HashMap<String, NotiData>();
+
+    // For dropdown list
+    private NotiData mNotiData = new NotiData(null, "NA", R.drawable.ic_launcher_background);
 
     public class NotiData {
         public String title;
         public String text;
         public int iconId;
+
+        public String service = NOTIFICATION_SERVICE;
+        public int    priority = NotificationManager.IMPORTANCE_MIN;
+        public String category = Notification.CATEGORY_SERVICE;
+
         public NotiData(String _title, String _text, int _iconId) {
             title  = _title;
             text   = _text;
@@ -97,6 +112,46 @@ public class TestFunction {
         };
     }
 
+    public AdapterView.OnItemSelectedListener onDropdownSelected() {
+        return new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selected_item = parentView.getSelectedItem().toString();
+                Log.d(TAG, "onItemSelected = " + selected_item);
+                TestData.getInstance().setData(selected_item);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // nothing
+            }
+        };
+    }
+
+    public AdapterView.OnItemSelectedListener onDropdownInput(int type) {
+        return new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selected_item = parentView.getSelectedItem().toString();
+                Log.d(TAG, "onItemSelected = " + selected_item);
+                if(TestData.NID_TITTLE==type) {
+                    if(selected_item.equals("<Empty>")) {
+                        TestData.getInstance().setTitle(null);
+                    } else {
+                        TestData.getInstance().setTitle(selected_item);
+                    }
+                } else if (TestData.NID_TEXT==type) {
+                    TestData.getInstance().setText(selected_item);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // nothing
+            }
+        };
+    }
+
 //    public View.OnClickListener AddListen(String action) {
 //        return new View.OnClickListener() {
 //            @Override
@@ -151,5 +206,28 @@ public class TestFunction {
             Log.d(TAG, "on handle for mess: " + mess);
             makeNotification(data.title, data.text, data.iconId);
         }
+    }
+
+    public View.OnClickListener sendCustomNotification() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NotificationManager notificationManager =
+                        (NotificationManager)AppInfo.getInstance().getSystemService(
+                                TestData.getInstance().getService()
+                        );
+
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(
+                        AppInfo.getInstance().getApplicationContext(),
+                        AppInfo.CHANNEL_ID);
+
+                builder.setContentTitle(TestData.getInstance().getTitle());
+                builder.setContentText(TestData.getInstance().getText());
+                builder.setSmallIcon(TestData.getInstance().getIcon());
+                builder.setPriority(TestData.getInstance().getPriority());
+                builder.setCategory(TestData.getInstance().getCategory());
+                notificationManager.notify(1, builder.build());
+            }
+        };
     }
 }

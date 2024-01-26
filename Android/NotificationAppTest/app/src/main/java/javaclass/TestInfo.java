@@ -31,11 +31,11 @@ public class TestInfo
         return (String.valueOf(width) + "x" + String.valueOf(height));
     }
 
-    private String[] TestServiceNameArray = null;
-    public String[] getServicesList() {
-        if(TestServiceNameArray == null) {
-            Resources r = AppInfo.getInstance().getApplicationContext().getResources();
-            XmlResourceParser parser = r.getXml(R.xml.sevic_names);
-        }
-    }
+//    private String[] TestServiceNameArray = null;
+//    public String[] getServicesList() {
+//        if(TestServiceNameArray == null) {
+//            Resources r = AppInfo.getInstance().getApplicationContext().getResources();
+//            XmlResourceParser parser = r.getXml(R.xml.sevic_names);
+//        }
+//    }
 }
