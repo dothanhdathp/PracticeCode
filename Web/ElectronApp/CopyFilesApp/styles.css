@@ -1,0 +1,24 @@
+/* styles.css */
+/* common value */
+button{
+    border: black;
+    padding: 32px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 24px 20px 0px 0px;
+    cursor: pointer;
+    width:220px;
+    height:120px;
+}.button_green {
+    background-color: #04AA6D;
+} /* Green */
+.button_blue  {
+    background-color: #008CBA;
+} /* Blue */
+.button_red   {
+    background-color: #ff6666;
+} /* Tomato */
+
+/* Add styles here to customize the appearance of your app */

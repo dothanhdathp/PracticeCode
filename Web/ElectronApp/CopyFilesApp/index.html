@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+  <link href="./styles.css" rel="stylesheet">
+  <title>CopyFilesApp</title>
+</head>
+
+<body>
+  <!-- You can also require other files to run in this process -->
+
+  <button id="b1" class="button_red">CPU</button>
+  <button id="b2" class="button_blue">TOTAL MEM</button>
+  <button id="b3" class="button_green">FREE MEM</button>
+
+  <script src="./renderer.js"></script>
+</body>
+
+</html>
