@@ -1,6 +1,6 @@
 {
-  "name": "local-news-scrub-j2uco",
-  "productName": "local-news-scrub-j2uco",
+  "name": "CopyFilesApp",
+  "productName": "CopyFilesApp",
   "description": "My Electron application description",
   "keywords": [],
   "main": "./main.js",

@@ -1,24 +1,85 @@
 /* styles.css */
 /* common value */
 button{
-    border: black;
-    padding: 32px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 20px;
-    margin: 24px 20px 0px 0px;
+    margin: 10px 10px 10px 10px;
     cursor: pointer;
-    width:220px;
-    height:120px;
+    width: -webkit-fill-available;
+    height: fit-content;
+    padding-right:  5px;
+    padding-left:   5px;
+    padding-top:    5px;
+    padding-bottom: 5px;
+    /* border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px; */
+    border-style: dashed;
+    border-color: black;
+    font-family: monospace;
+    font-size: 20px;
 }.button_green {
-    background-color: #04AA6D;
+    background-color: #b5ffe4;
 } /* Green */
 .button_blue  {
     background-color: #008CBA;
 } /* Blue */
 .button_red   {
-    background-color: #ff6666;
+    background-color: #ffaeae;
 } /* Tomato */
 
+form {
+    background: white;
+    border-style: double;
+    border-color: black;
+    height: fit-content;
+    width: -webkit-fill-available;
+    padding: 5px;
+    margin-left: 10px;
+    font-family: monospace;
+}.form_default
+
+input {
+    height: fit-content;
+}.custom {
+    width: -webkit-fill-available;
+    font-family: monospace;
+}
 /* Add styles here to customize the appearance of your app */
+#sel1, #sel2, #sel3 {
+    cursor: pointer;
+    background-color: #c8c8c8;
+    text-align: center;
+    padding: 10px;
+    height: fit-content;
+    width: fit-content;
+    font-family: monospace;
+    font-style: italic;
+}
+
+#resultsel1{
+    display:block;
+    position:relative;
+    bottom:1px;
+    margin-top:30px;
+    width:fit-content;
+    height:fit-content;
+}
+#resultsel2{
+    display:none;
+    position:relative;
+    bottom:1px;
+    margin-top:30px;
+    width:fit-content;
+    height:fit-content;
+}
+#resultsel3{
+    display:none;
+    position:relative;
+    bottom:1px;
+    margin-top:30px;
+    width:fit-content;
+    height:fit-content;
+}

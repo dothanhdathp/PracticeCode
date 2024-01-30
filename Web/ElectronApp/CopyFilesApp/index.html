@@ -4,19 +4,49 @@
 <head>
   <meta charset="UTF-8">
   <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
   <link href="./styles.css" rel="stylesheet">
   <title>CopyFilesApp</title>
 </head>
-
 <body>
-  <!-- You can also require other files to run in this process -->
+<div width="100%">
+    <span id='sel1'>Home</span>
+    <span id='sel2'>Copy File</span>
+    <span id='sel3'>Copy Folder</span>
+</div>
 
-  <button id="b1" class="button_red">CPU</button>
-  <button id="b2" class="button_blue">TOTAL MEM</button>
-  <button id="b3" class="button_green">FREE MEM</button>
 
-  <script src="./renderer.js"></script>
+<div id="resultsel1" style="margin-top:20px">
+  <button id="source_file" class="button_red">Select File</button>  
+  <button id="target_dir" class="button_red">Select Folder</button>
+  <p style="display: inline; margin-left: 10px; font-size: 20px; font-family: monospace;">Amount (Max 9999) </p><input type="number" id="amount" min="1" max="9999" style="margin-left: 10px; margin-right: 10px; height: 20px display: inline; font-size: 20px; width: -webkit-fill-available;">
+<!-- 
+      <label for="target_dir">Copy to:</label>
+      <input type="file" id="target_dir" name="fname" style="width: -webkit-fill-available" webkitdirectory directory><br> -->
+      
+</div>
+
+<div id="resultsel2" style="margin-top:20px">
+  <div>
+    <form id="url" class="form_default">
+      <label for="fname">Folder name:</label><br>
+      <input id="open-project" type="file" webkitdirectory directory />
+    </form><br/>
+    <button id="btn_add_folder" class="button_red">Add Folder</button>
+  </div>
+</div>
+
+<div id="resultsel3" style="margin-top:20px">
+  <div>
+    <button id="b2" class="button_blue">TOTAL MEM</button><br/>
+    <button id="b3" class="button_green">FREE MEM</button>
+  </div>
+</div>
+
+<!-- You can also require other files to run in this process -->
+
+
+<script src="./renderer.js"></script>
 </body>
-
 </html>
