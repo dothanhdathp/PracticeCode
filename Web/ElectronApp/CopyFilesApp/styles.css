@@ -16,7 +16,7 @@ button{
     border-bottom-right-radius: 5px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px; */
-    border-style: dashed;
+    border-style: double;
     border-color: black;
     font-family: monospace;
     font-size: 20px;
