@@ -1,0 +1,28 @@
+{
+  "name": "google-translate-electron",
+  "version": "1.0.0",
+  "description": "Open Google Translate at Desktop",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron build",
+    "make": "electron make"
+  },
+  "repository": "https://github.com/laissonsilveira/google-translate-electron.git",
+  "keywords": [
+    "Electron",
+    "google",
+    "translate",
+    "tradutor",
+    "desktop"
+  ],
+  "author": {
+    "name": "Laisson R. Silveira",
+    "email": "laisson.r.silveira@gmail.com",
+    "url": "https://laissonsilveira.github.io"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "electron": "^4.2.12"
+  }
+}

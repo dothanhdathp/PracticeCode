@@ -1,0 +1,16 @@
+{
+  "name": "quack-trees-achieve-xxr77",
+  "productName": "quack-trees-achieve-xxr77",
+  "description": "My Electron application description",
+  "keywords": [],
+  "main": "main.js",
+  "version": "1.0.0",
+  "author": "dtdat",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^28.2.0"
+  },
+  "license": "ISC"
+}
