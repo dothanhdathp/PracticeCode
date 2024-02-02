@@ -1,0 +1,13 @@
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\bin\Debug\WinAppBasic.exe
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\bin\Debug\WinAppBasic.pdb
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Debug\WinAppBasic.csproj.AssemblyReference.cache
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Debug\WinAppBasic.Properties.Resources.resources
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Debug\WinAppBasic.csproj.GenerateResource.cache
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Debug\WinAppBasic.csproj.CoreCompileInputs.cache
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Debug\WinAppBasic.exe
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Debug\WinAppBasic.pdb
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Debug\WinAppBasic.HomeForm.resources
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\bin\Debug\WinAppBasic.exe.manifest
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\bin\Debug\WinAppBasic.application
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Debug\WinAppBasic.exe.manifest
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Debug\WinAppBasic.application

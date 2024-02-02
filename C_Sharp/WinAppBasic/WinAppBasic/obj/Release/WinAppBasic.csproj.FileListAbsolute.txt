@@ -1,0 +1,13 @@
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\bin\Release\WinAppBasic.exe
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\bin\Release\WinAppBasic.pdb
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Release\WinAppBasic.csproj.AssemblyReference.cache
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Release\WinAppBasic.HomeForm.resources
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Release\WinAppBasic.Properties.Resources.resources
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Release\WinAppBasic.csproj.GenerateResource.cache
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Release\WinAppBasic.csproj.CoreCompileInputs.cache
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Release\WinAppBasic.exe
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Release\WinAppBasic.pdb
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\bin\Release\WinAppBasic.exe.manifest
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\bin\Release\WinAppBasic.application
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Release\WinAppBasic.exe.manifest
+D:\Github\PracticeCode\C#\WinAppBasic\WinAppBasic\obj\Release\WinAppBasic.application
