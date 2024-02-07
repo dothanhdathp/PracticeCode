@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WinAppSetupTool")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9544e5471db1675d51b66eb6690cde7159815a91")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3560af15a560029448d535b1cc49e8eb2c38b84e")]
 [assembly: System.Reflection.AssemblyProductAttribute("WinAppSetupTool")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WinAppSetupTool")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Github\\PracticeCode\\C#\\WinAppSetupTool\\WinAppSetupTool\\WinAppSetupTool.csproj": {}
+    "D:\\Github\\PracticeCode\\C_Sharp\\WinAppSetupTool\\WinAppSetupTool\\WinAppSetupTool.csproj": {}
   },
   "projects": {
-    "D:\\Github\\PracticeCode\\C#\\WinAppSetupTool\\WinAppSetupTool\\WinAppSetupTool.csproj": {
+    "D:\\Github\\PracticeCode\\C_Sharp\\WinAppSetupTool\\WinAppSetupTool\\WinAppSetupTool.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Github\\PracticeCode\\C#\\WinAppSetupTool\\WinAppSetupTool\\WinAppSetupTool.csproj",
+        "projectUniqueName": "D:\\Github\\PracticeCode\\C_Sharp\\WinAppSetupTool\\WinAppSetupTool\\WinAppSetupTool.csproj",
         "projectName": "WinAppSetupTool",
-        "projectPath": "D:\\Github\\PracticeCode\\C#\\WinAppSetupTool\\WinAppSetupTool\\WinAppSetupTool.csproj",
-        "packagesPath": "C:\\Users\\dtdat\\.nuget\\packages\\",
-        "outputPath": "D:\\Github\\PracticeCode\\C#\\WinAppSetupTool\\WinAppSetupTool\\obj\\",
+        "projectPath": "D:\\Github\\PracticeCode\\C_Sharp\\WinAppSetupTool\\WinAppSetupTool\\WinAppSetupTool.csproj",
+        "packagesPath": "C:\\Users\\Rakuh\\.nuget\\packages\\",
+        "outputPath": "D:\\Github\\PracticeCode\\C_Sharp\\WinAppSetupTool\\WinAppSetupTool\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\dtdat\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Rakuh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -43,6 +39,12 @@
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -62,7 +64,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

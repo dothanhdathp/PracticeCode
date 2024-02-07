@@ -53,13 +53,17 @@
             // 
             // dataGridView
             // 
+            dataGridView.AllowUserToAddRows = false;
+            dataGridView.AllowUserToDeleteRows = false;
             dataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView.Columns.AddRange(new DataGridViewColumn[] { Column0, Column1, Column2, Column3, Column4 });
+            dataGridView.EditMode = DataGridViewEditMode.EditOnEnter;
             dataGridView.Location = new Point(6, 35);
             dataGridView.Name = "dataGridView";
             dataGridView.Size = new Size(783, 355);
             dataGridView.TabIndex = 0;
+            dataGridView.EditingControlShowing += dataGridView_EditingControlShowing;
             // 
             // Column0
             // 
@@ -72,16 +76,15 @@
             // 
             Column1.HeaderText = "Check";
             Column1.Name = "Column1";
-            Column1.ReadOnly = true;
             Column1.Resizable = DataGridViewTriState.True;
             Column1.SortMode = DataGridViewColumnSortMode.Automatic;
             // 
             // Column2
             // 
+            Column2.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
             Column2.HeaderText = "Version";
             Column2.Name = "Column2";
             Column2.Resizable = DataGridViewTriState.True;
-            Column2.SortMode = DataGridViewColumnSortMode.Automatic;
             // 
             // Column3
             // 
@@ -94,6 +97,7 @@
             Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             Column4.HeaderText = "Revese";
             Column4.Name = "Column4";
+            Column4.ReadOnly = true;
             // 
             // comboBox
             // 
@@ -146,12 +150,13 @@
             // 
             // btnInstall
             // 
-            btnInstall.Location = new Point(329, 6);
+            btnInstall.Location = new Point(707, 6);
             btnInstall.Name = "btnInstall";
             btnInstall.Size = new Size(82, 23);
             btnInstall.TabIndex = 3;
-            btnInstall.Text = "button1";
+            btnInstall.Text = "Download";
             btnInstall.UseVisualStyleBackColor = true;
+            btnInstall.Click += btnInstall_Click;
             // 
             // tabControl1
             // 
