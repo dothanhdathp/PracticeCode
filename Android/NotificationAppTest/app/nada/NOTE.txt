@@ -1,0 +1,2 @@
+android.car.origin là bản gốc.
+android.car là phiên bản đã đóng gói thêm nhiều thành phần của humax.
